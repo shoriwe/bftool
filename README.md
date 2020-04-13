@@ -28,8 +28,8 @@ optional arguments:
 ## As Script
 Use `bftool` as a script in the command line
 ### Get script usage
-```bash
-python38 -m bftool --help
+```
+python -m bftool --help
 ```
 ### Fuzzing
 Writing a script with only a function in it like in a file `example.py`
@@ -43,8 +43,8 @@ def check_creds(username: str, password: str):
 ```
 Can import the function `check_creds` in the `bftool` with
 
-```bash
-python38 -m bftool -w usernames -w password ./example.py check_creds
+```
+python -m bftool -w usernames -w password ./example.py check_creds
 ```
 
 ### Handle more Threads/Processes
@@ -65,6 +65,6 @@ No yet supported
 ## Manual
 1. `git clone https://github.com/shoriwe/bftool.git`
 2. `bftool`
-3. `python38 setup.py install`
+3. `python setup.py install`
 ## pip
 Comming soon
