@@ -5,7 +5,7 @@
 Module and script that handle different types of iterations over python iterable objects
 
 # Usage
-```bash
+```
 fuzzer@linux:~$ python -m bftool --help
 usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] -w WORDLIST [-m {wordlist,arguments}] module_path function_name
 
