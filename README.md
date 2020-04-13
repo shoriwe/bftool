@@ -40,6 +40,6 @@ Currently `bftool` only has two modes
 * Remember that this script DO NOT sanitize the scripts you enter
 ## Installation
 
-1. `git clone REPO`
+1. `git clone https://github.com/shoriwe/bftool.git`
 2. `bftool`
 3. `python38 setup.py install`
