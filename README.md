@@ -3,7 +3,8 @@
 
 # Description
 Module and script that handle different types of iterations over python iterable objects
-
+# Requiriments
+* Python >= 3.8
 # Usage
 ```
 fuzzer@linux:~$ python -m bftool --help
