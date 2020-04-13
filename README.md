@@ -35,10 +35,12 @@ Currently `bftool` only has two modes
 
 * `arguments`  (enabled by default): This mode iterates over the arguments wordlist directly it means that for each argument entry it will spawn a thread
 * `wordlist`: This mode is used to divide in a sub-wordlist the wordlist that was given to a spawned process it means that if a  process was spawned with a wordlist of length 10, if the user specify the max  number of threads to a number for example 5 it will divide the wordlist in 5 sub-wordlists and spawn a threads to each one
-## Notes
+## As Module
+No yet supported
+# Notes
 * In the order that you specify the wordlists is the order that they are going be passed to the function, it means if you have a function `check_login(username, password)` in the moment to specify the wordlist you will gonna put them like `python38 -m bftool -w  usernames -w passwords ./example.py check_login`
 * Remember that this script DO NOT sanitize the scripts you enter
-## Installation
+# Installation
 
 1. `git clone https://github.com/shoriwe/bftool.git`
 2. `bftool`
