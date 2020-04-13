@@ -5,6 +5,25 @@
 Module and script that handle different types of iterations over python iterable objects
 
 # Usage
+```bash
+fuzzer@linux:~$ python -m bftool --help
+usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] -w WORDLIST [-m {wordlist,arguments}] module_path function_name
+
+positional arguments:
+  module_path           Path to the python module to the function to use
+  function_name         Name of the function to use
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -mt MAX_THREADS, --max-threads MAX_THREADS
+                        Maximum number of threads per process (if mode is set to wordlist block, this will be also the worlist division number)
+  -mp MAX_PROCESSES, --max-processes MAX_PROCESSES
+                        Maximum number of process to have active at the same time
+  -w WORDLIST, --wordlist WORDLIST
+                        Wordlist to use (can be used more than once)
+  -m {wordlist,arguments}, --mode {wordlist,arguments}
+                        Mode to use during the function execution (way to divide the threads)
+```
 ## As Script
 Use `bftool` as a script in the command line
 ### Get script usage
