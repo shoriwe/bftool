@@ -58,13 +58,13 @@ Currently `bftool` only has two modes
 ## As Module
 No documentation avaiable yet
 # Notes
-* In the order that you specify the wordlists is the order that they are going be passed to the function, it means if you have a function `check_login(username, password)` in the moment to specify the wordlist you will gonna put them like `python38 -m bftool -w  usernames -w passwords ./example.py check_login`
+* In the order that you specify the wordlists is the order that they are going be passed to the function, it means if you have a function `check_login(username, password)` in the moment to specify the wordlist you will gonna put them like `python -m bftool -w  usernames -w passwords ./example.py check_login`
 * Remember that this script DO NOT sanitize the scripts you enter
 # Installation
 
 ## Manual
 1. `git clone https://github.com/shoriwe/bftool.git`
-2. `bftool`
+2. `cd bftool`
 3. `python setup.py install`
 ## pip
 Comming soon
