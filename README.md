@@ -6,6 +6,9 @@ Module and script that handle different types of iterations over python iterable
 # Requiriments
 * Python >= 3.8
 # Usage
+## As Script
+Use `bftool` as a script in the command line
+### Get script usage
 ```
 fuzzer@linux:~$ python -m bftool --help
 usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] -w WORDLIST [-m {wordlist,arguments}] module_path function_name
@@ -24,12 +27,6 @@ optional arguments:
                         Wordlist to use (can be used more than once)
   -m {wordlist,arguments}, --mode {wordlist,arguments}
                         Mode to use during the function execution (way to divide the threads)
-```
-## As Script
-Use `bftool` as a script in the command line
-### Get script usage
-```
-python -m bftool --help
 ```
 ### Fuzzing
 Writing a script with only a function in it like in a file `example.py`
