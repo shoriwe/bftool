@@ -67,7 +67,7 @@ No documentation avaiable yet
 Comming soon
 # Bugs and suggestions
 ## Bugs
-Please report bug in the issues section I will try to fix them almost in the same day you report them.
+Please report bugs in the issues section I will try to fix at least one in the same day you report it.
 ## Suggestions
 If you have any suggestion for new features, also leave them in the issue section or create the proper 
 branch, add what do you want and request a pull request
