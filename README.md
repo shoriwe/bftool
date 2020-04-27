@@ -55,6 +55,7 @@ Currently `bftool` only has two modes
 ## As Module
 No documentation avaiable yet
 # Notes
+* If you have troubles loading big wordlists, you can divide it in smaller wordlists for different processes with `-mp NUMBER_PROCESSES` option. **WARNING** if you want to fuzz in a linear way (without spawning a thread for each word(s)) this option is not going to help you (you may want to divide your wordlist in smaller wordlists files).
 * In the order that you specify the wordlists is the order that they are going be passed to the function, it means if you have a function `check_login(username, password)` in the moment to specify the wordlist you will gonna put them like `python -m bftool -w  usernames -w passwords ./example.py check_login`
 * Remember that this script DO NOT sanitize the scripts you enter
 # Installation
