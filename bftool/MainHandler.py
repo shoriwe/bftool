@@ -37,6 +37,9 @@ class MainHandler(object):
             wordlists = bftool.wordlist_divider(wordlist, arguments.max_processes)
         else:
             wordlists = [wordlist]
+
+        print_queue = multiprocessing.Queue()
+        
         print("--- Starting child processes ---")
         for index, sub_wordlist in enumerate(wordlists):
             process_handler = bftool.ProcessHandler(function_, sub_wordlist,
@@ -49,7 +52,6 @@ class MainHandler(object):
                 print(f"* Process with ID {index} - Started")
         print("--- Waiting to finish ---")
         print("--- Starting printing QUEUE --- ")
-        print_queue = multiprocessing.Queue()
         queue_thread = threading.Thread(target=self.print_queue_handler, args=(print_queue,))
         queue_thread.start()
         if sys.platform == "win32":
