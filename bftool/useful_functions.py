@@ -2,6 +2,7 @@ import types
 import itertools
 import importlib
 import os
+import argparse
 
 
 # Get the wordlists from the files supplied
@@ -38,3 +39,22 @@ def wordlist_divider(wordlist: tuple, step: int) -> tuple:
 # Function to merge wordlist
 def merge_wordlists(*args):
     return tuple(itertools.product(*args))
+
+
+# Default argument capture for the main function
+def get_arguments():
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("-mt", "--max-threads",
+                                 help="Maximum number of threads per process (if mode is set to wordlist block, \
+                                 this will be also the worlist division number)", default=1, type=int)
+    argument_parser.add_argument("-mp", "--max-processes",
+                                 help="Maximum number of process to have active at the same time",
+                                 default=1, type=int)
+    argument_parser.add_argument("-w", "--wordlist", help="Wordlist to use (can be used more than once)",
+                                 action="append", required=True)
+    argument_parser.add_argument("-m", "--mode",
+                                 help="Mode to use during the function execution (way to divide the threads)",
+                                 choices=("wordlist", "arguments"), default="arguments")
+    argument_parser.add_argument("module_path", help="Path to the python module to the function to use")
+    argument_parser.add_argument("function_name", help="Name of the function to use")
+    return argument_parser.parse_args()
