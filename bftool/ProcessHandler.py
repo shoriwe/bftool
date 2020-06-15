@@ -28,8 +28,8 @@ class ProcessHandler(multiprocessing.Process):
             self.__active_threads += 1
 
     def __arguments_mode_function(self, *args, **kargs):
-        self.__function(*args, **kargs)
-        self.__active_threads -= 1
+        result = self.__function(*args, **kargs)
+        self.__print_queue.put(result)
 
     def _arguments_block_mode(self):
         for arguments in self.__wordlist:
