@@ -9,6 +9,7 @@ class MainHandler(object):
         # Wordlist distributed processes
         self.__processes = []
         self.__finish = False
+        self.__print_queue = multiprocessing.Queue()
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
     def start_win32_process(self, process: multiprocessing.Process):
@@ -17,9 +18,11 @@ class MainHandler(object):
         process_thread.start()
 
     # Use this function to handle prints
-    def print_queue_handler(self, print_queue: multiprocessing.Queue):
+    def print_queue_handler(self):
         while not self.__finish:
-            print(print_queue.get())
+            print(self.__print_queue.get())
+        while not self.__print_queue.empty():
+            print(self.__print_queue.get())
         exit(-1)
 
     def main(self):
@@ -38,12 +41,10 @@ class MainHandler(object):
         else:
             wordlists = [wordlist]
 
-        print_queue = multiprocessing.Queue()
-        
         print("--- Starting child processes ---")
         for index, sub_wordlist in enumerate(wordlists):
             process_handler = bftool.ProcessHandler(function_, sub_wordlist,
-                                                    arguments.max_threads, numeric_mode, print_queue)
+                                                    arguments.max_threads, numeric_mode, self.__print_queue)
             if sys.platform == "win32":
                 self.start_win32_process(process_handler)
             else:
@@ -51,15 +52,14 @@ class MainHandler(object):
                 self.__processes.append(process_handler)
                 print(f"* Process with ID {index} - Started")
         print("--- Waiting to finish ---")
-        print("--- Starting printing QUEUE --- ")
-        queue_thread = threading.Thread(target=self.print_queue_handler, args=(print_queue,))
+        queue_thread = threading.Thread(target=self.print_queue_handler, )
         queue_thread.start()
         if sys.platform == "win32":
             print("OS: Windows\nNo end will be printed so be careful to end the fuzzing tool by your self (Control-C)")
         for process_handler in self.__processes:
             process_handler.join()
+        self.__finish = True
+        queue_thread.join()
         if sys.platform != "win32":
             print("-----END-----")
-            self.__finish = True
-        queue_thread.join()
         exit(0)

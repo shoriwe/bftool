@@ -31,6 +31,7 @@ class ProcessHandler(multiprocessing.Process):
         result = self.__function(*args, **kargs)
         if result:
             self.__print_queue.put(result)
+        exit(-1)
 
     def _arguments_block_mode(self):
         for arguments in self.__wordlist:
