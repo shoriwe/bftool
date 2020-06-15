@@ -52,7 +52,7 @@ class MainHandler(object):
             else:
                 process_handler.start()
                 self.__processes.append(process_handler)
-                print(f"{index} - Started")
+                print(f"* Process with ID {index} - Started")
         print("--- Waiting to finish ---")
         print(self.__processes)
         for process_handler in self.__processes:
