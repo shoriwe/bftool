@@ -8,7 +8,6 @@ class MainHandler(object):
     def __init__(self):
         # Wordlist distributed processes
         self.__processes = []
-        self.__finish = False
         self.__print_queue = multiprocessing.Queue()
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
@@ -19,11 +18,8 @@ class MainHandler(object):
 
     # Use this function to handle prints
     def print_queue_handler(self):
-        while not self.__finish:
+        while True:
             print(self.__print_queue.get())
-        while not self.__print_queue.empty():
-            print(self.__print_queue.get())
-        exit(-1)
 
     def main(self):
         arguments = bftool.get_arguments()
@@ -58,8 +54,5 @@ class MainHandler(object):
             print("OS: Windows\nNo end will be printed so be careful to end the fuzzing tool by your self (Control-C)")
         for process_handler in self.__processes:
             process_handler.join()
-        self.__finish = True
         queue_thread.join()
-        if sys.platform != "win32":
-            print("-----END-----")
         exit(0)
