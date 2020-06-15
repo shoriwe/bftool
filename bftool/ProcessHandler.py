@@ -29,7 +29,8 @@ class ProcessHandler(multiprocessing.Process):
 
     def __arguments_mode_function(self, *args, **kargs):
         result = self.__function(*args, **kargs)
-        self.__print_queue.put(result)
+        if result:
+            self.__print_queue.put(result)
 
     def _arguments_block_mode(self):
         for arguments in self.__wordlist:
