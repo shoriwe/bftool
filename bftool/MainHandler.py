@@ -54,7 +54,6 @@ class MainHandler(object):
                 self.__processes.append(process_handler)
                 print(f"* Process with ID {index} - Started")
         print("--- Waiting to finish ---")
-        print(self.__processes)
         for process_handler in self.__processes:
             process_handler.join()
         if sys.platform != "win32":
