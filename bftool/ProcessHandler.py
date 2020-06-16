@@ -53,7 +53,6 @@ class ProcessHandler(multiprocessing.Process):
             self.__threads_queue.get().join()
             self.__active_threads -= 1
 
-
     def run(self):
         if self.__mode == bftool.Modes.WORDLIST_BLOCK:
             self._wordlist_block_mode()
