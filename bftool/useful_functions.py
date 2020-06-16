@@ -3,6 +3,7 @@ import itertools
 import importlib
 import os
 import argparse
+import copy
 
 
 # Get the wordlists from the files supplied
@@ -41,6 +42,33 @@ def merge_wordlists(*args):
     return tuple(itertools.product(*args))
 
 
+# chars,minlength,maxlength
+def pure_bruteforce_rule(rule: str):
+    rule = dict(value.split("=") for value in rule.split(","))
+    rule["minlength"] = int(rule["minlength"])
+    rule["maxlength"] = int(rule["maxlength"])
+    for length in range(rule["minlength"], rule["maxlength"]+1):
+        for word in itertools.product(*(rule["chars"] for number in range(length))):
+            yield "".join(word)
+
+
+def read_file_lines(file_path: str):
+    file_object = open(file_path, errors="ignore")
+    for line in file_object:
+        yield line[:-1]
+    file_object.close()
+
+
+# By StackOverFlow user @jfs
+# https://stackoverflow.com/questions/533905/get-the-cartesian-product-of-a-series-of-lists
+def custom_product(*args):
+    copied = (copy.copy(iterable) for iterable in args)
+    if not args:
+        return iter(((),))  # yield tuple()
+    return (items + (item,)
+            for items in custom_product(*copied[:-1]) for item in args[-1])
+
+
 # Default argument capture for the main function
 def get_arguments():
     argument_parser = argparse.ArgumentParser()
@@ -51,7 +79,11 @@ def get_arguments():
                                  help="Maximum number of process to have active at the same time",
                                  default=1, type=int)
     argument_parser.add_argument("-w", "--wordlist", help="Wordlist to use (can be used more than once)",
-                                 action="append", required=True)
+                                 action="append")
+    argument_parser.add_argument("-b", "--bruteforce",
+                                 help="Generate a virtual wordlist based on \
+                                 rules (\"chars=...,minlength=...,maxlength=...\")",
+                                 action="append")
     argument_parser.add_argument("-m", "--mode",
                                  help="Mode to use during the function execution (way to divide the threads)",
                                  choices=("wordlist", "arguments"), default="arguments")

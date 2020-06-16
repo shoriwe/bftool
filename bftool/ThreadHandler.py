@@ -1,11 +1,13 @@
 import threading
 import types
 import multiprocessing
+import bftool.WordlistHandler
 
 
 # Only a way to handle threads inside processes (useful when can read the entire wordlist)
 class ThreadHandler(threading.Thread):
-    def __init__(self, wordlist: tuple, function_: types.FunctionType, print_queue: multiprocessing.Queue):
+    def __init__(self, wordlist: bftool.WordlistHandler.WordlistHandler,
+                 function_: types.FunctionType, print_queue: multiprocessing.Queue):
         # Initialize the original thread elements
         threading.Thread.__init__(self)
         self.__wordlist = wordlist
