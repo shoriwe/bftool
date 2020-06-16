@@ -32,6 +32,7 @@ class ProcessHandler(multiprocessing.Process):
             self.__active_threads += 1
         while self.__active_threads > 0:
             self.__threads_queue.get().join()
+            self.__active_threads -= 1
 
     def __arguments_mode_function(self, *args):
         result = self.__function(*args)
