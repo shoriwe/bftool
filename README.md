@@ -151,7 +151,7 @@ No documentation available yet
 2. `cd bftool`
 3. `python setup.py install`
 ## pip
-Comming soon
+```pip install bftool-pkg-sulcud```
 # Bugs and suggestions
 ## Bugs
 Please report bugs in the issues section I will try to fix at least one in the same day you report it.
