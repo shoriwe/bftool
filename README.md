@@ -11,7 +11,7 @@ Use `bftool` as a script in the command line
 ### Get script usage
 ```
 fuzzer@linux:~$ python -m bftool --help
-usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] -w WORDLIST [-m {wordlist,arguments}] module_path function_name
+usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] [-w WORDLIST] [-b BRUTEFORCE] [-m {wordlist,arguments}] module_path function_name
 
 positional arguments:
   module_path           Path to the python module to the function to use
@@ -25,8 +25,10 @@ optional arguments:
                         Maximum number of process to have active at the same time
   -w WORDLIST, --wordlist WORDLIST
                         Wordlist to use (can be used more than once)
+  -b BRUTEFORCE, --bruteforce BRUTEFORCE
+                        Generate a virtual wordlist based on rules ("chars=...,minlength=...,maxlength=...")
   -m {wordlist,arguments}, --mode {wordlist,arguments}
-                        Mode to use during the function execution (way to divide the threads) (default=arguments)
+                        Mode to use during the function execution (way to divide the threads)
 ```
 
 ### Quick example
