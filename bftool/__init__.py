@@ -6,6 +6,7 @@ from .useful_functions import get_arguments
 from .useful_functions import read_file_lines
 from .useful_functions import pure_bruteforce_rule
 from .useful_functions import custom_product
+from .useful_functions import arguments_queue_handler
 
 
 class Modes(object):
