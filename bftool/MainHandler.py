@@ -44,12 +44,13 @@ class MainHandler(object):
         wordlist_handler.setup()
 
         # Start filling the queue
-        wordlist_queue_thread = threading.Thread(target=bftool.arguments_queue_handler, args=(wordlist_queue, wordlist_handler))
+        wordlist_queue_thread = threading.Thread(target=bftool.arguments_queue_handler, args=(wordlist_queue,
+                                                                                              wordlist_handler))
         wordlist_queue_thread.start()
 
         self.__print_queue.put("--- Starting child processes ---")
-        queue_thread = threading.Thread(target=self.print_queue_handler, )
-        queue_thread.start()
+        print_queue_thread = threading.Thread(target=self.print_queue_handler, )
+        print_queue_thread.start()
         for index in range(1, arguments.max_processes+1):
             process_handler = bftool.ProcessHandler.ProcessHandler(index, function_, wordlist_queue,
                                                                    arguments.max_threads,
@@ -69,6 +70,6 @@ class MainHandler(object):
             process_handler.join()
         self.__finish = True
         wordlist_queue_thread.join()
-        queue_thread.join()
         self.__print_queue.put("--- END ---")
+        print_queue_thread.join()
         exit(0)
