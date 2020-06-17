@@ -4,6 +4,8 @@ import importlib
 import os
 import argparse
 import copy
+import multiprocessing
+import bftool.WordlistHandler
 
 
 # Get the wordlists from the files supplied
@@ -68,6 +70,12 @@ def custom_product(*args):
     return (items + (item,)
             for items in custom_product(*copied[:-1]) for item in args[-1])
 
+
+def arguments_queue_handler(arguments_queue: multiprocessing.Queue,
+                            wordlist_handler: bftool.WordlistHandler.WordlistHandler):
+    for argument in wordlist_handler:
+        arguments_queue.put(argument)
+    exit(0)
 
 # Default argument capture for the main function
 def get_arguments():
