@@ -17,6 +17,6 @@ class ThreadHandler(threading.Thread):
     def run(self):
         for arguments in self.__wordlist:
             result = self.__function(*arguments)
-            if result:
+            if result is not None:
                 self.__print_queue.put(result)
         exit(-1)
