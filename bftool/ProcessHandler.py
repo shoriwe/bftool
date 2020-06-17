@@ -8,12 +8,12 @@ import bftool.ThreadHandler
 
 
 class ProcessHandler(multiprocessing.Process):
-    def __init__(self, process_id: int, function_: types.FunctionType, wordlist: bftool.WordlistHandler.WordlistHandler,
+    def __init__(self, process_id: int, function_: types.FunctionType, wordlist_queue: multiprocessing.Queue,
                  max_threads: int, mode: int, print_queue):
         multiprocessing.Process.__init__(self)
         self.__process_id = process_id
         self.__function = function_
-        self.__wordlist_handler = wordlist
+        self.__wordlist_queue = wordlist_queue
         self.__active_threads = 0
         self.__max_threads = max_threads
         self.__mode = mode
@@ -25,7 +25,7 @@ class ProcessHandler(multiprocessing.Process):
             if self.__active_threads > self.__max_threads:
                 self.__threads_queue.get().join()
                 self.__active_threads -= 1
-            wordlist_block_thread = bftool.ThreadHandler.ThreadHandler(self.__wordlist_handler,
+            wordlist_block_thread = bftool.ThreadHandler.ThreadHandler(self.__wordlist_queue,
                                                                        self.__function, self.__print_queue)
             self.__threads_queue.put(wordlist_block_thread)
             wordlist_block_thread.start()
@@ -38,9 +38,14 @@ class ProcessHandler(multiprocessing.Process):
         result = self.__function(*args)
         if result is not None:
             self.__print_queue.put(result)
+        exit(0)
 
     def _arguments_block_mode(self):
-        for arguments in self.__wordlist_handler:
+        while True:
+            try:
+                arguments = self.__wordlist_queue.get(True, timeout=5)
+            except queue.Empty:
+                break
             if self.__active_threads >= self.__max_threads:
                 # print(self.__active_threads)
                 self.__threads_queue.get().join()
@@ -59,4 +64,4 @@ class ProcessHandler(multiprocessing.Process):
         elif self.__mode == bftool.Modes.BASIC_MODE:
             self._arguments_block_mode()
         self.__print_queue.put(f"* Process {self.__process_id} - Done")
-        exit(-1)
+        exit(0)
