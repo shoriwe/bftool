@@ -33,6 +33,7 @@ class MainHandler(object):
         function_ = getattr(module, arguments.function_name)
 
         wordlist_handler = bftool.WordlistHandler.WordlistHandler()
+        wordlist_queue = multiprocessing.Queue()
 
         numeric_mode = bftool.Modes.WORDLIST_BLOCK if arguments.mode == "wordlist" else bftool.Modes.BASIC_MODE
 
@@ -42,11 +43,15 @@ class MainHandler(object):
             wordlist_handler.pure_bruteforce_setup(*arguments.bruteforce)
         wordlist_handler.setup()
 
+        # Start filling the queue
+        wordlist_queue_thread = threading.Thread(target=bftool.arguments_queue_handler, args=(wordlist_queue, wordlist_handler))
+        wordlist_queue_thread.start()
+
         self.__print_queue.put("--- Starting child processes ---")
         queue_thread = threading.Thread(target=self.print_queue_handler, )
         queue_thread.start()
         for index in range(1, arguments.max_processes+1):
-            process_handler = bftool.ProcessHandler.ProcessHandler(index, function_, wordlist_handler,
+            process_handler = bftool.ProcessHandler.ProcessHandler(index, function_, wordlist_queue,
                                                                    arguments.max_threads,
                                                                    numeric_mode,
                                                                    self.__print_queue)
@@ -63,6 +68,7 @@ class MainHandler(object):
         for process_handler in self.__processes:
             process_handler.join()
         self.__finish = True
-        self.__print_queue.put("--- END ---")
+        wordlist_queue_thread.join()
         queue_thread.join()
+        self.__print_queue.put("--- END ---")
         exit(0)
