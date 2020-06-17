@@ -3,6 +3,7 @@ import types
 import multiprocessing
 import queue
 import bftool
+import bftool.Modes
 import bftool.WordlistHandler
 import bftool.ThreadHandler
 
@@ -61,7 +62,9 @@ class ProcessHandler(multiprocessing.Process):
     def run(self):
         if self.__mode == bftool.Modes.WORDLIST_BLOCK:
             self._wordlist_block_mode()
-        elif self.__mode == bftool.Modes.BASIC_MODE:
+        elif self.__mode == bftool.Modes.ARGUMENTS_MODE:
             self._arguments_block_mode()
+        else:
+            raise KeyError("Unknown mode supplied")
         self.__print_queue.put(f"* Process {self.__process_id} - Done")
         exit(0)
