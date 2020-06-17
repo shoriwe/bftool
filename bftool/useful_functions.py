@@ -44,7 +44,7 @@ def merge_wordlists(*args):
     return tuple(itertools.product(*args))
 
 
-# chars,minlength,maxlength
+# chars, minlength, maxlength
 def pure_bruteforce_rule(rule: str):
     rule = dict(value.split("=") for value in rule.split(","))
     rule["minlength"] = int(rule["minlength"])
@@ -76,6 +76,7 @@ def arguments_queue_handler(arguments_queue: multiprocessing.Queue,
     for argument in wordlist_handler:
         arguments_queue.put(argument)
     exit(0)
+
 
 # Default argument capture for the main function
 def get_arguments():
