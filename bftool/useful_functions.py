@@ -115,7 +115,7 @@ def get_arguments() -> bftool.ArgumentConstructor.Arguments:
     parsed_arguments = argument_parser.parse_args()
     if parsed_arguments.mode == "wordlist":
         parsed_arguments.mode = bftool.Modes.WORDLIST_BLOCK
-    elif parsed_arguments == "arguments":
+    elif parsed_arguments.mode == "arguments":
         parsed_arguments.mode = bftool.Modes.ARGUMENTS_MODE
     arguments = bftool.ArgumentConstructor.Arguments(script_path=parsed_arguments.script_path,
                                                      function_name=parsed_arguments.function_name,
