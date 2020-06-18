@@ -1,6 +1,12 @@
 # BruteForce Tool (bftool)
  Modular fuzzing tool
 
+# Index
+- [Description](https://github.com/shoriwe/bftool#description)
+- (Requiriments)[https://github.com/shoriwe/bftool#requiriments]
+- (Usage)[https://github.com/shoriwe/bftool#usage]
+- (Notes)[https://github.com/shoriwe/bftool#notes]
+- (Installation)[https://github.com/shoriwe/bftool#installation]
 # Description
 Module and script that handle different types of iterations over python iterable objects
 # Requiriments
