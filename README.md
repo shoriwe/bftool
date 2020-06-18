@@ -9,7 +9,7 @@
 - [Installation](#installation)
 # Description
 Module and script that handle different types of iterations over python iterable objects
-# Requiriments
+# Requirements
 * Python >= 3.8
 # Usage
 ## As Script
