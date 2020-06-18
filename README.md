@@ -3,7 +3,7 @@
 
 # Index
 - [Description](#description)
-- [Requiriments](#requiriments)
+- [Requirements](#requiriments)
 - [Usage](#usage)
 - [Notes](#notes)
 - [Installation](#installation)
