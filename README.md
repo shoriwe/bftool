@@ -36,13 +36,15 @@ Use `bftool` as a script in the command line
 ### Get script usage
 ```
 fuzzer@linux:~$ python -m bftool --help
-usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] [-w WORDLIST]
-                     [-b BRUTEFORCE] [-m {wordlist,arguments}]
-                     script_path function_name
+usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES]
+                           [-w WORDLIST] [-b BRUTEFORCE]
+                           [-m {wordlist,arguments}]
+                           script_path function_name
 
 positional arguments:
-  script_path           Path to the python script to the function to use
-  function_name         Name of the function to use
+  script_path           Python script to import
+  function_name         Name of the function implemented in the python script
+                        to use
 
 optional arguments:
   -h, --help            show this help message and exit
