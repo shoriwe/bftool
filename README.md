@@ -207,7 +207,7 @@ for thread in available_threads:
     threading.Thread(target=wordlist_handler, args=(wordlist_handler, )).start()
 ```
 # Examples
-Comming soon
+Here you can found some [Examples](https://github.com/shoriwe/bftool/tree/master/examples)
 
 # Notes
 * If you want to run a function that has a small time cost (like 1 seconds or less), it will be better to implement a simple for loop to run it instead of this tool
