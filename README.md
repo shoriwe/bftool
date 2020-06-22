@@ -6,10 +6,24 @@
 [![Downloads](https://img.shields.io/pypi/dd/bftool-pkg-sulcud?color=green)](https://pypi.org/project/bftool-pkg-sulcud/)
 # Index
 - [Description](#description)
-- [Requirements](#requiriments)
+- [Requirements](#requirements)
 - [Usage](#usage)
+    * [As Script](#as-script)
+        * [Get script usage](#get-script-usage)
+        * [Quick example](#quick-example)
+        * [Bruteforce rules](#bruteforce-rules)
+    * [As Module](#as-module)
+- [Concepts](#concepts)
+    * [Handle more Threads/Processes](#handle-more-threadsprocesses)
+    * [Modes](#modes)
+        * [Arguments](#arguments--enabled-by-default)
+        * [Wordlist](#wordlist)
+- [Examples](#examples)
 - [Notes](#notes)
 - [Installation](#installation)
+    * [Manual](#manual)
+    * [pip](#pip)
+- [Bug and suggestions](#bugs-and-suggestions)
 # Description
 `bftool` is a python module, and script, that facilitate the implementation of custom fuzzing against anything, by providing
 a high level API to distribute a python function in processes and/or threads, so the only a developer need to worry
@@ -99,6 +113,33 @@ python -m bftool -b argument_name:chars=abcdef,minlength=10,maxlength=1000 scrip
 
 - This feature is really fast as  it generates the wordlist on the fly
 - It's functionality is very similar to the wordlist specification option, the only different is that it receive as input the wordlist generation rule
+
+## As Module
+You can use it as module by creating an `Argument` object and a `MainHandler`
+
+```python
+import time
+import bftool.Types
+import bftool.ArgumentConstructor
+import bftool.MainHandler
+
+
+# Function that do something
+def test(argument1: str, argument2: str):
+    time.sleep(2)  # Here should be some code that processes the arguments
+    if argument1 == argument2: # You should place a filter to only return wanted results
+        return argument1 + ":" + argument2
+
+handler = bftool.MainHandler.MainHandler()
+iterable_wordlists = bftool.Types.IterableWordlists({"argument1": ["Test string 1", "Test string 2"], "argument2": ["Test string 1", "Second string"]}) 
+arguments = bftool.ArgumentConstructor.Arguments(function_=test,
+                                                 wordlists_iterables=iterable_wordlists,
+                                                 maximum_number_of_process_threads=10
+                                                )
+handler.main(arguments)
+```
+
+## Concepts
 ### Handle more Threads/Processes
 By default `bftool` always spawn at least one process per execution, you can increase this number with the flag `-mp MAX_NUMBER_OF_PROCESSES` (`--max-processes MAX_NUMBER_OF_PROCESSES`), just remember that this flag divide the provided wordlist in those processes
 \
@@ -160,32 +201,9 @@ def wordlist_handler(wordlist_handler: Queue):
 for thread in available_threads:
     threading.Thread(target=wordlist_handler, args=(wordlist_handler, )).start()
 ```
-## Example fuzz functions (real life applicable functions)
+# Examples
 Comming soon
-## As Module
-You can use it as module by creating an `Argument` object and a `MainHandler`
 
-```python
-import time
-import bftool.Types
-import bftool.ArgumentConstructor
-import bftool.MainHandler
-
-
-# Function that do something
-def test(argument1: str, argument2: str):
-    time.sleep(2)  # Here should be some code that processes the arguments
-    if argument1 == argument2: # You should place a filter to only return wanted results
-        return argument1 + ":" + argument2
-
-handler = bftool.MainHandler.MainHandler()
-iterable_wordlists = bftool.Types.IterableWordlists({"argument1": ["Test string 1", "Test string 2"], "argument2": ["Test string 1", "Second string"]}) 
-arguments = bftool.ArgumentConstructor.Arguments(function_=test,
-                                                 wordlists_iterables=iterable_wordlists,
-                                                 maximum_number_of_process_threads=10
-                                                )
-handler.main(arguments)
-```
 # Notes
 * If you want to run a function that has a small time cost (like 1 seconds or less), it will be better to implement a simple for loop to run it instead of this tool
 * Remember that this script DO NOT sanitize the scripts you enter
