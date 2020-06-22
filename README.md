@@ -86,7 +86,15 @@ Time setting up the processes: 0.001027822494506836
 Time fuzzing: 15.191009759902954
 Total time: 15.199022769927979
 ```
+### Bruteforce rules
+You can force `bftool` to create a virtual wordlist of custom chars combined with cartesian product of a specific length by providing the `-b` (`--bruteforce`) argument 
 
+```
+python -m bftool -b argument_name:chars=abcdef,minlength=10,maxlength=1000 script.py function_
+```
+
+- This feature is really fast as  it generates the wordlist on the fly
+- It's functionality is very similar to the wordlist specification option, the only different is that it receive as input the wordlist generation rule
 ### Handle more Threads/Processes
 By default `bftool` always spawn at least one process per execution, you can increase this number with the flag `-mp MAX_NUMBER_OF_PROCESSES` (`--max-processes MAX_NUMBER_OF_PROCESSES`), just remember that this flag divide the provided wordlist in those processes
 \
