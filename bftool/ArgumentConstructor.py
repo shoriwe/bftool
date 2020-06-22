@@ -11,7 +11,7 @@ import bftool.WordlistHandler
 # This class prepare all the arguments that the MainHandler is going to use
 class Arguments(object):
     """Class that handles all the configuration of the the arguments that are going to be passed
-    to bftool.MainHandler.MainHandler"""
+    to `bftool.MainHandler.MainHandler`"""
     def __init__(self,
                  function_: collections.abc.Callable = None,
                  script_path: str = None,
