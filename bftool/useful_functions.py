@@ -1,9 +1,7 @@
 import types
-import itertools
 import importlib
 import os
 import argparse
-import copy
 import multiprocessing
 import bftool.Types
 import bftool.Modes
@@ -46,24 +44,20 @@ def wordlist_divider(wordlist: tuple, step: int) -> tuple:
         raise IndexError("The division step can't be higher than the wordlist length")
     wordlist_step = int(length / step)
     for number in range(length):
-        if wordlist_block := wordlist[number*wordlist_step:(number+1)*wordlist_step]:
+        if wordlist_block := wordlist[number * wordlist_step:(number + 1) * wordlist_step]:
             yield wordlist_block
         else:
             break
 
 
-# Function to merge wordlist
-def merge_wordlists(*args):
-    return tuple(itertools.product(*args))
-
-
 # chars, minlength, maxlength
 def pure_bruteforce_rule(rule: str):
+    # noinspection PyTypeChecker
     rule = dict(value.split("=") for value in rule.split(","))
     rule["minlength"] = int(rule["minlength"])
     rule["maxlength"] = int(rule["maxlength"])
-    for length in range(rule["minlength"], rule["maxlength"]+1):
-        for word in itertools.product(*(rule["chars"] for number in range(length))):
+    for length in range(rule["minlength"], rule["maxlength"] + 1):
+        for word in cartesian_product(rule["chars"], length):
             yield "".join(word)
 
 
@@ -72,16 +66,6 @@ def read_file_lines(file_path: str):
     for line in file_object:
         yield line[:-1]
     file_object.close()
-
-
-# By StackOverFlow user @jfs
-# https://stackoverflow.com/questions/533905/get-the-cartesian-product-of-a-series-of-lists
-def custom_product(*args):
-    copied = (copy.copy(iterable) for iterable in args)
-    if not args:
-        return iter(((),))  # yield tuple()
-    return (items + (item,)
-            for items in custom_product(*copied[:-1]) for item in args[-1])
 
 
 def arguments_queue_handler(arguments_queue: multiprocessing.Queue,
@@ -119,13 +103,78 @@ def get_arguments() -> bftool.ArgumentConstructor.Arguments:
         parsed_arguments.mode = bftool.Modes.ARGUMENTS_MODE
     arguments = bftool.ArgumentConstructor.Arguments(script_path=parsed_arguments.script_path,
                                                      function_name=parsed_arguments.function_name,
-                                                     wordlists_files=bftool.Types.FilesWordlists(wordlist.split(":")
-                                                                          for wordlist in parsed_arguments.wordlist),
+                                                     wordlists_files=
+                                                     bftool.Types.FilesWordlists(wordlist.split(":")
+                                                                                 for wordlist in
+                                                                                 parsed_arguments.wordlist),
                                                      wordlists_pure_bruteforce_rules=bftool.Types.BruteforceWordlists(
                                                          wordlist.split(":")
                                                          for wordlist in parsed_arguments.bruteforce),
-                                                     maximum_number_of_concurrent_processes=parsed_arguments.max_processes,
+                                                     maximum_number_of_concurrent_processes=
+                                                     parsed_arguments.max_processes,
                                                      maximum_number_of_process_threads=parsed_arguments.max_threads,
                                                      fuzzing_mode=parsed_arguments.mode,
                                                      )
     return arguments
+
+
+def cartesian_product(iterable_: iter, length: int, join=False):
+    try:
+        iterable_ = tuple(set(iterable_))
+    except TypeError:
+        pass
+    if length < 1:
+        raise ValueError("Invalid length supplied")
+    indexes = [0] * length
+    chars_length = len(iterable_)
+    while True:
+        if not join:
+            yield tuple(iterable_[index] for index in indexes)
+        else:
+            yield "".join(iterable_[index] for index in indexes)
+        for index, index_value in enumerate(indexes):
+            if indexes[index] < chars_length - 1:
+                indexes[index] += 1
+                break
+            else:
+                indexes[index] = 0
+        if all(index == 0 for index in indexes):
+            break
+
+
+def expand_product(product: tuple) -> list:
+    result = []
+    for value in product:
+        if isinstance(value, bftool.Types.ExpandableTuple):
+            result += expand_product(value)
+        elif isinstance(value, tuple):
+            if len(value) == 1:  # If the tuple is just one argument
+                result.append(value[0])
+            else:
+                result.append(value)
+        else:
+            result.append(value)
+    return result
+
+
+# Expected input
+# [bftool.Types.SpecialGenerator, list, tuple, set, dict, ...] (list of iterables)
+def custom_product(iterables_: list, master=True):
+    number_of_iterables = len(iterables_)
+    if isinstance(iterables_[0], bftool.Types.SpecialGenerator):
+        cycle_iterable = iterables_[0]()
+    else:
+        cycle_iterable = iterables_[0]
+    if number_of_iterables == 1:
+        for value in cycle_iterable:
+            yield value,
+    elif number_of_iterables > 1:
+        for value in cycle_iterable:
+            for second_value in custom_product(iterables_[1:], False):
+                second_value = bftool.Types.ExpandableTuple(second_value)
+                if master:
+                    yield expand_product((value, second_value))
+                else:
+                    yield value, second_value
+    else:
+        raise IndexError("Invalid number of arguments")
