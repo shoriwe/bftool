@@ -32,7 +32,7 @@ class MainHandler(object):
             print(self.__print_queue.get())
         while not self.__print_queue.empty():
             print(self.__print_queue.get())
-    
+
     # Use this function to start bftool
     def main(self, arguments: bftool.ArgumentConstructor.Arguments = None):
         """This function activates the MainHandler, It distributes the function in the
