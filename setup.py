@@ -11,7 +11,7 @@ setuptools.setup(
     description="A python module (with script) included to handle different kinds of bruteforce",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/shoriwe/bftool",
     packages=["bftool"],
     classifiers=[
         "Programming Language :: Python :: 3",
