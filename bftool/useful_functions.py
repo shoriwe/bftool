@@ -10,6 +10,7 @@ import bftool.WordlistHandler
 
 
 def get_wordlist_from_path(wordlist_path: str):
+    """Function to read all lines of a file"""
     with open(wordlist_path, "r", errors="ignore") as file_obj:
         content = map(lambda word: word[:-1] if word[-1] == "\n" else word, file_obj.readlines())
         file_obj.close()
@@ -18,12 +19,14 @@ def get_wordlist_from_path(wordlist_path: str):
 
 # Get the wordlists from the files supplied
 def get_wordlists_from_paths(wordlists_paths: tuple) -> iter:
+    """Function to provide a generator with all the content of the input files"""
     for wordlist_path in wordlists_paths:
         yield get_wordlist_from_path(wordlist_path)
 
 
 # Import a python module from it's filesystem path
 def import_module_from_path(main_py_path: str) -> types.ModuleType:
+    """Import a python module from it's FileSystem path"""
     if not os.path.exists(main_py_path):
         raise FileExistsError("Looks like file not exists")
     if not os.path.isfile(main_py_path):
@@ -33,12 +36,14 @@ def import_module_from_path(main_py_path: str) -> types.ModuleType:
 
 
 def import_function_from_script(script_path: str, function_name: str):
+    """Function to extract the a python function from a module"""
     module = import_module_from_path(script_path)
     return getattr(module, function_name)
 
 
 # Split a wordlist in smaller sub wordlists
 def wordlist_divider(wordlist: tuple, step: int) -> tuple:
+    """Function to divide a wordlist of `N` size in small wordlists of sizes `step`"""
     length = len(wordlist)
     if step > length:
         raise IndexError("The division step can't be higher than the wordlist length")
@@ -52,6 +57,11 @@ def wordlist_divider(wordlist: tuple, step: int) -> tuple:
 
 # chars, minlength, maxlength
 def pure_bruteforce_rule(rule: str):
+    """Function that creates a virtual wordlist based on rules.
+    Necessary rules:
+        - `chars=string` : All the chars that are going to be used during the cartesian product
+        - `minlength=int` : Minimum length of generated words
+        - `maxlength=` : maximum length of generated words"""
     # noinspection PyTypeChecker
     rule = dict(value.split("=") for value in rule.split(","))
     rule["minlength"] = int(rule["minlength"])
@@ -62,6 +72,7 @@ def pure_bruteforce_rule(rule: str):
 
 
 def read_file_lines(file_path: str):
+    """Function that iterates over a file lines, eat less memory than reading it at once"""
     file_object = open(file_path, errors="ignore")
     for line in file_object:
         yield line[:-1]
@@ -70,6 +81,7 @@ def read_file_lines(file_path: str):
 
 def arguments_queue_handler(arguments_queue: multiprocessing.Queue,
                             wordlist_handler: bftool.WordlistHandler.WordlistHandler):
+    """Fill the `arguments_queue` of the `MainHandler` with the arguments provided by `WordlistHandler`"""
     for argument in wordlist_handler:
         arguments_queue.put(argument)
     exit(0)
@@ -77,6 +89,7 @@ def arguments_queue_handler(arguments_queue: multiprocessing.Queue,
 
 # Default argument capture for the main function
 def get_arguments() -> bftool.ArgumentConstructor.Arguments:
+    """Default function to prepare the arguments for the `MainHandler` during it's execution in a terminal"""
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("-mt", "--max-threads",
                                  help="Maximum number of threads per process (if mode is set to wordlist block, \
@@ -119,6 +132,7 @@ def get_arguments() -> bftool.ArgumentConstructor.Arguments:
 
 
 def cartesian_product(iterable_: iter, length: int, join=False):
+    """Custom cartesian product that creates product on the fly"""
     try:
         iterable_ = tuple(set(iterable_))
     except TypeError:
@@ -143,6 +157,7 @@ def cartesian_product(iterable_: iter, length: int, join=False):
 
 
 def expand_product(product: tuple) -> list:
+    """This function expand in it's correct way, the arguments provided by custom product"""
     result = []
     for value in product:
         if isinstance(value, bftool.Types.ExpandableTuple):
@@ -160,6 +175,7 @@ def expand_product(product: tuple) -> list:
 # Expected input
 # [bftool.Types.SpecialGenerator, list, tuple, set, dict, ...] (list of iterables)
 def custom_product(iterables_: list, master=True):
+    """This function is intended to handle the cartesian product of all arguments"""
     number_of_iterables = len(iterables_)
     if isinstance(iterables_[0], bftool.Types.SpecialGenerator):
         cycle_iterable = iterables_[0]()
@@ -173,6 +189,7 @@ def custom_product(iterables_: list, master=True):
             for second_value in custom_product(iterables_[1:], False):
                 second_value = bftool.Types.ExpandableTuple(second_value)
                 if master:
+                    # When is the master function (the one that the user called), normalize it's values
                     yield expand_product((value, second_value))
                 else:
                     yield value, second_value
