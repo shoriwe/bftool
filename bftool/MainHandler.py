@@ -10,7 +10,7 @@ import bftool.ProcessHandler
 
 # High level class to handle the distribution of execution of a python function
 class MainHandler(object):
-    """This class provide a high level interface for the exection distribution of a python function, it is
+    """This class provide a high level interface for the execution distribution of a python function, it is
     the main core of the module"""
     def __init__(self):
         # Wordlist distributed processes
@@ -37,7 +37,7 @@ class MainHandler(object):
     def main(self, arguments: bftool.ArgumentConstructor.Arguments = None):
         """This function activates the MainHandler, It distributes the function in the
          specified processes and threads. To understand how it's arguments can be prepared, please check
-         bftool.ArgumentConstructor.Arguments"""
+         `bftool.ArgumentConstructor.Arguments`"""
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
         if arguments is None:
