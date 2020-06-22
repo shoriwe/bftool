@@ -11,7 +11,7 @@ import bftool.WordlistHandler
 
 def get_wordlist_from_path(wordlist_path: str):
     with open(wordlist_path, "r", errors="ignore") as file_obj:
-        content = map(lambda word: word[:-1], file_obj.readlines())
+        content = map(lambda word: word[:-1] if word[-1] == "\n" else word, file_obj.readlines())
         file_obj.close()
     return content
 
