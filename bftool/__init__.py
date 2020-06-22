@@ -1,5 +1,4 @@
 from .useful_functions import wordlist_divider
-from .useful_functions import merge_wordlists
 from .useful_functions import import_module_from_path
 from .useful_functions import import_function_from_script
 from .useful_functions import get_wordlist_from_path
