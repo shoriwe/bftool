@@ -1,5 +1,5 @@
-import itertools
 import bftool
+import bftool.Types
 
 
 class WordlistHandler(object):
@@ -15,18 +15,18 @@ class WordlistHandler(object):
 
     def wordlist_from_files(self, *args):
         for wordlist_path in args:
-            self.wordlists.append(bftool.read_file_lines(wordlist_path))
+            self.wordlists.append(bftool.Types.SpecialGenerator(bftool.read_file_lines, wordlist_path))
 
     def pure_bruteforce_setup(self, *args):
         for rule in args:
-            self.wordlists.append(bftool.pure_bruteforce_rule(rule))
+            self.wordlists.append(bftool.Types.SpecialGenerator(bftool.pure_bruteforce_rule, rule))
 
     def wordlist_from_iterable(self, *args):
         self.wordlists.extend(args)
 
     def setup(self):
         # self.__master_wordlist = bftool.custom_product(*self.__wordlists)  # At the end this never work
-        self.__master_wordlist = itertools.product(*self.wordlists)
+        self.__master_wordlist = bftool.custom_product(self.wordlists)
 
     def get(self):
         try:
