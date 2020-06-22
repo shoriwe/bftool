@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bftool-pkg-sulcud",
-    version="1.4.1.5",
+    version="1.4.2",
     author="Antonio Donis",
     author_email="antoniojosedonishung@gmail.com",
     description="A python module (with script) included to handle different kinds of bruteforce",
