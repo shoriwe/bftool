@@ -1,5 +1,9 @@
 # BFTOOL
-
+[![Maintened](https://img.shields.io/badge/Maintained-Yes-green.svg)](https://github.com/shoriwe/bftool)
+[![Maintened](https://img.shields.io/badge/Pypi-Yes-blue.svg)](https://pypi.org/project/bftool-pkg-sulcud/)
+[![PyPI version](https://badge.fury.io/py/bftool-pkg-sulcud.svg)](https://pypi.org/project/bftool-pkg-sulcud/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/shoriwe/bftool/blob/master/LICENSE)
+[![Downloads](https://img.shields.io/pypi/dd/bftool-pkg-sulcud?color=green)](https://pypi.org/project/bftool-pkg-sulcud/)
 # Index
 - [Description](#description)
 - [Requirements](#requiriments)
