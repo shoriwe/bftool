@@ -1,5 +1,4 @@
-# BruteForce Tool (bftool)
- Modular fuzzing tool
+# BFTOOL
 
 # Index
 - [Description](#description)
@@ -8,7 +7,9 @@
 - [Notes](#notes)
 - [Installation](#installation)
 # Description
-Module and script that handle different types of iterations over python iterable objects
+`bftool` is a python module, and script, that facilitate the implementation of custom fuzzing against anything, by providing
+a high level API to distribute a python function in processes and/or threads, so the only a developer need to worry
+is in the fuzzing function and not in how to distribute it's execution
 # Requirements
 * Python >= 3.8
 # Usage
