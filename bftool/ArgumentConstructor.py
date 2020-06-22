@@ -1,5 +1,6 @@
 import collections
 import inspect
+import typing
 import string
 import bftool
 import bftool.Types
@@ -27,6 +28,7 @@ class Arguments(object):
             raise ValueError("No function provided")
         function_args_spec = inspect.getfullargspec(self.function)
 
+        wordlists_for_handler: (int, [bftool.Types.SpecialGenerator, typing.Iterable[None], None])
         wordlists_for_handler = [None] * len(function_args_spec.args)
         if wordlists_iterables:
             for key, value in wordlists_iterables.items():
@@ -39,18 +41,25 @@ class Arguments(object):
         if wordlists_pure_bruteforce_rules:
             for key, value in wordlists_pure_bruteforce_rules.items():
                 if key[0] in string.digits:
-                    wordlists_for_handler[int(key)] = bftool.pure_bruteforce_rule(value)
+                    # noinspection PyTypeChecker
+                    wordlists_for_handler[int(key)] = bftool.Types.SpecialGenerator(bftool.pure_bruteforce_rule, value)
                 elif isinstance(key, str):
-                    wordlists_for_handler[function_args_spec.args.index(key)] = bftool.pure_bruteforce_rule(value)
+                    # noinspection PyTypeChecker
+                    wordlists_for_handler[function_args_spec.args.index(key)] =\
+                        bftool.Types.SpecialGenerator(bftool.pure_bruteforce_rule, value)
                 else:
                     raise KeyError(f"Can't index in the function arguments key {key} of type {type(key)}")
 
         if wordlists_files:
             for key, value in wordlists_files.items():
                 if key[0] in string.digits:
-                    wordlists_for_handler[int(key)] = bftool.get_wordlist_from_path(value)
+                    # noinspection PyTypeChecker
+                    wordlists_for_handler[int(key)] =\
+                        bftool.Types.SpecialGenerator(bftool.get_wordlist_from_path, value)
                 elif isinstance(key, str):
-                    wordlists_for_handler[function_args_spec.args.index(key)] = bftool.get_wordlist_from_path(value)
+                    # noinspection PyTypeChecker
+                    wordlists_for_handler[function_args_spec.args.index(key)] =\
+                        bftool.Types.SpecialGenerator(bftool.get_wordlist_from_path, value)
                 else:
                     raise KeyError(f"Can't index in the function arguments key {key} of type {type(key)}")
 
