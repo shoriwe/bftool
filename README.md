@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/shoriwe/bftool/blob/master/LICENSE)
 [![Downloads](https://img.shields.io/pypi/dd/bftool-pkg-sulcud?color=green)](https://pypi.org/project/bftool-pkg-sulcud/)
 
-![Logo](https://github.com/shoriwe/bftool/logo/logo_size_invert.jpg)
+![Logo](https://raw.githubusercontent.com/shoriwe/bftool/master/logo/logo_size_invert.jpg)
 
 # Index
 - [Description](#description)
