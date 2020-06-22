@@ -94,8 +94,8 @@ def get_arguments() -> bftool.ArgumentConstructor.Arguments:
     argument_parser.add_argument("-m", "--mode",
                                  help="Mode to use during the function execution (way to divide the threads)",
                                  choices=("wordlist", "arguments"), default="arguments")
-    argument_parser.add_argument("script_path", help="Path to the python script to the function to use")
-    argument_parser.add_argument("function_name", help="Name of the function to use")
+    argument_parser.add_argument("script_path", help="Python script to import")
+    argument_parser.add_argument("function_name", help="Name of the function implemented in the python script to use")
     parsed_arguments = argument_parser.parse_args()
     if parsed_arguments.mode == "wordlist":
         parsed_arguments.mode = bftool.Modes.WORDLIST_BLOCK
