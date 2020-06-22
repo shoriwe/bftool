@@ -10,7 +10,7 @@
 # Description
 Module and script that handle different types of iterations over python iterable objects
 # Requirements
-* Python >= 3.x
+* Python >= 3.7
 # Usage
 ## As Script
 Use `bftool` as a script in the command line
