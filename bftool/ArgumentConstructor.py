@@ -23,6 +23,18 @@ class Arguments(object):
                  maximum_number_of_process_threads: int = 1,
                  fuzzing_mode: bftool.Modes = bftool.Modes.ARGUMENTS_MODE,
                  ):
+        """
+            function_: The function object to be used
+            script_path: The script path with the source code of the wanted function (Incompatible with `function_`)
+            function_name: The function to be imported (Incompatible with `function_`)
+            wordlists_iterables: Dictionary with the iterables that are going to be passed to the arguments, please
+            notice that if you want to pass a generator object you may construct it with bftool.Types.SpecialGenerator
+            wordlists_pure_bruteforce_rules: Dict with the bruteforce rules that are going to be passed to the function
+            wordlists_files: Dict with the wordlists paths that are going to be passed to the function
+            maximum_number_of_concurrent_processes: maximum number of concurrent processes
+            maximum_number_of_process_threads: maximum number of concurrent threads per process
+            fuzzing_mode: the fuzzing mode
+        """
         # - Function Setup
         # When the users bftool as a module and not a script he can provide the raw function object
         if isinstance(function_, collections.abc.Callable):

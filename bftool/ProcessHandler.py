@@ -13,6 +13,14 @@ class ProcessHandler(multiprocessing.Process):
     """This class provide a high level API to handle the distribution of threads inside a independent process"""
     def __init__(self, process_id: int, function_: types.FunctionType, wordlist_queue: multiprocessing.Queue,
                  max_threads: int, mode: int, print_queue):
+        """
+            process_id: ID of the process
+            function_: function that is goning to be passed to the threads
+            wordlist_queue: the master wordlist queue
+            max_threads: The maximum number of concurrent threads for this process
+            mode: The mode in which distribute the execution
+            print_queue: master print queue
+        """
         multiprocessing.Process.__init__(self)
         self.__process_id = process_id
         self.__function = function_
@@ -41,7 +49,11 @@ class ProcessHandler(multiprocessing.Process):
 
     # Handler for the execution of the the specified function in a independent thread (ARGUMENTS mode)
     def __arguments_mode_function(self, *args):
-        """Handler for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)"""
+        """Handler for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
+
+        Arguments:
+            args: arguments that are going to be passed to the function
+        """
         result = self.__function(*args)
         if result is not None:
             self.__print_queue.put(result)

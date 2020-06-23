@@ -17,19 +17,32 @@ class WordlistHandler(object):
 
     def wordlist_from_files(self, *args):
         """Prepare all the wordlists from a list of file paths, understand that this function is not smart enough to
-        organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does"""
+        organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does
+
+        Arguments:
+            args: file paths
+        """
         for wordlist_path in args:
             self.wordlists.append(bftool.Types.SpecialGenerator(bftool.read_file_lines, wordlist_path))
 
     def pure_bruteforce_setup(self, *args):
         """Prepare all the wordlists from a list of bruteforce rules, understand that this function is not smart enough
-        to organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does"""
+        to organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does
+
+        Arguments:
+            args: bruteforce rules
+        """
         for rule in args:
             self.wordlists.append(bftool.Types.SpecialGenerator(bftool.pure_bruteforce_rule, rule))
 
     def wordlist_from_iterable(self, *args):
         """Prepare all the wordlists from a list of iterables, understand that this function is not smart enough to
-        organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does"""
+        organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does
+
+        Arguments:
+            args: iterables
+
+        """
         self.wordlists.extend(args)
 
     def setup(self):
@@ -38,7 +51,11 @@ class WordlistHandler(object):
         self.__master_wordlist = bftool.custom_product(self.wordlists)
 
     def get(self):
-        """A friendly way to handle the iteration of the master wordlist from a while loop"""
+        """A friendly way to handle the iteration of the master wordlist from a while loop
+
+        Returns:
+            The next iteration of the master wordlist
+            """
         try:
             return next(self.__master_wordlist)
         except StopIteration:

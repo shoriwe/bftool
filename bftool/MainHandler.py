@@ -20,7 +20,11 @@ class MainHandler(object):
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
     def start_win32_process(self, process: multiprocessing.Process):
-        """Only a Windows friendly way to start a process"""
+        """Only a Windows friendly way to start a process
+
+        Arguments:
+            process: process to start
+        """
         process_thread = threading.Thread(target=process.run, )
         self.__processes.append(process_thread)
 
@@ -37,7 +41,11 @@ class MainHandler(object):
     def main(self, arguments: bftool.ArgumentConstructor.Arguments = None):
         """This function activates the MainHandler, It distributes the function in the
          specified processes and threads. To understand how it's arguments can be prepared, please check
-         `bftool.ArgumentConstructor.Arguments`"""
+         `bftool.ArgumentConstructor.Arguments`
+
+         Arguments:
+             arguments: bftool.ArgumentConstructor.Arguments
+        """
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
         if arguments is None:
