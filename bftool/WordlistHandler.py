@@ -3,7 +3,7 @@ import bftool.Types
 
 
 class WordlistHandler(object):
-    """This class provide a high level understanding on how the arguments are prepared and then readeden by the
+    """This class provide a high level understanding on how the arguments are prepared and then read by the
     `MainHandler`"""
     def __init__(self):
         self.wordlists = []
