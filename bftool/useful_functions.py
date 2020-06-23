@@ -199,8 +199,7 @@ def cartesian_product(iterable_: iter, length: int, join=False):
     Arguments:
         iterable_: iterable object
         length: length of products generated
-        join: (Default=False) When the iterable is a string you can put this to True so the generated words are a
-        string
+        join: (Default=False) When the iterable is a string you can put this to True so the generated words are a string
 
     Returns:
         Yields a tuple if join is set to False otherwise yields strings
