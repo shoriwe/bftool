@@ -12,9 +12,9 @@ class ThreadHandler(threading.Thread):
     def __init__(self, wordlist_queue: multiprocessing.Queue,
                  function_: types.FunctionType, print_queue: multiprocessing.Queue):
         """
-            wordlist_queue: the master wordlist queue
-            function_: the function that is going to be executed
-            print_queue: the printing queue to put the results
+            - wordlist_queue: the master wordlist queue
+            - function_: the function that is going to be executed
+            - print_queue: the printing queue to put the results
         """
         # Initialize the original thread elements
         threading.Thread.__init__(self)

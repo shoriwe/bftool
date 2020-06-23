@@ -9,8 +9,8 @@ class SpecialGenerator(object):
     def __init__(self, generator_function, *args):
         """
         Arguments:
-            generator_function: The function that creates the generator
-            args: the arguments to pass to that function
+            - generator_function: The function that creates the generator
+            - args: the arguments to pass to that function
         """
         self.function = generator_function
         self.arguments = args

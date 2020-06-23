@@ -20,7 +20,7 @@ class WordlistHandler(object):
         organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does
 
         Arguments:
-            args: file paths
+            - args: file paths
         """
         for wordlist_path in args:
             self.wordlists.append(bftool.Types.SpecialGenerator(bftool.read_file_lines, wordlist_path))
@@ -30,7 +30,7 @@ class WordlistHandler(object):
         to organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does
 
         Arguments:
-            args: bruteforce rules
+            - args: bruteforce rules
         """
         for rule in args:
             self.wordlists.append(bftool.Types.SpecialGenerator(bftool.pure_bruteforce_rule, rule))
@@ -40,7 +40,7 @@ class WordlistHandler(object):
         organize them by index or by argument name like `bftool.ArgumentConstructor.Arguments` does
 
         Arguments:
-            args: iterables
+            - args: iterables
 
         """
         self.wordlists.extend(args)
@@ -54,7 +54,7 @@ class WordlistHandler(object):
         """A friendly way to handle the iteration of the master wordlist from a while loop
 
         Returns:
-            The next iteration of the master wordlist
+            - The next iteration of the master wordlist
             """
         try:
             return next(self.__master_wordlist)

@@ -23,7 +23,7 @@ class MainHandler(object):
         """Only a Windows friendly way to start a process
 
         Arguments:
-            process: process to start
+            - process: process to start
         """
         process_thread = threading.Thread(target=process.run, )
         self.__processes.append(process_thread)
@@ -44,7 +44,7 @@ class MainHandler(object):
          `bftool.ArgumentConstructor.Arguments`
 
          Arguments:
-             arguments: bftool.ArgumentConstructor.Arguments
+             - arguments: bftool.ArgumentConstructor.Arguments
         """
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
