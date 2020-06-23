@@ -29,7 +29,8 @@ class Arguments(object):
             - function_name: The function to be imported (Incompatible with `function_`)
             - wordlists_iterables: Dictionary with the iterables that are going to be passed to the arguments, please
             - notice that if you want to pass a generator object you may construct it with bftool.Types.SpecialGenerator
-            - wordlists_pure_bruteforce_rules: Dict with the bruteforce rules that are going to be passed to the function
+            - wordlists_pure_bruteforce_rules: Dict with the bruteforce rules that are going to be passed to the
+            function
             - wordlists_files: Dict with the wordlists paths that are going to be passed to the function
             - maximum_number_of_concurrent_processes: maximum number of concurrent processes
             - maximum_number_of_process_threads: maximum number of concurrent threads per process
