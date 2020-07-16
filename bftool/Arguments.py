@@ -12,15 +12,15 @@ from .WordlistFromFile import read_file_lines
 __all__ = ["Arguments"]
 
 
-# This class prepare all the arguments that the MainHandler is going to use
+# This class prepare all the arguments that the Runner is going to use
 class Arguments(object):
     """Class that handles all the configuration of the the arguments that are going to be passed
-    to `bftool.MainHandler.MainHandler`"""
+    to `bftool.Runner`"""
 
     def __init__(self,
                  function_: collections.abc.Callable = None,
                  success_function: [collections.abc.Callable, str] = print,
-                 debug: bool=True,
+                 debug: bool = True,
                  script_path: str = None,
                  function_name: str = None,
                  iterables_wordlists: dict = None,
@@ -52,7 +52,7 @@ class Arguments(object):
         self._load_function(function_, script_path, function_name)
 
         # - Wordlist Setup
-        # This is the argument that will replace replace WordlistHandler.wordlist
+        # This is the argument that will replace replace Wordlist.wordlist
         self.__wordlists = [None] * len(self.__function_args_spec.args)
 
         self._load_words_from_iterables(iterables_wordlists)
