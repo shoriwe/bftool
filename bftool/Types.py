@@ -1,6 +1,9 @@
 import collections
 
 
+__all__ = ["SpecialGenerator", "ExpandableTuple"]
+
+
 # Low cost way to backup python generators for re-iterations
 class SpecialGenerator(object):
     """Low cost way to backup python generators for re-iterations, so always use it when you whant to pass generators to
