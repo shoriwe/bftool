@@ -9,6 +9,9 @@ from .Modes import ARGUMENTS_MODE
 from .Modes import WORDLIST_MODE
 
 
+__all__ = ["Process"]
+
+
 # This class is a high level API implemented by inheritance with the python multiprocessing.Process
 class Process(multiprocessing.Process):
     """This class provide a high level API to handle the distribution of threads inside a independent process"""
