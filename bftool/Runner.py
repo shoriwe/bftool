@@ -16,15 +16,14 @@ __all__ = ["Runner", "_get_arguments", "_queue_arguments_loader"]
 
 # Default argument capture for the main function
 def _get_arguments() -> Arguments:
-    """Default function to prepare the arguments for the `MainHandler` during it's execution in a terminal
+    """Default function to prepare the arguments for the `Runner` during it's execution in a terminal
 
     Returns:
-        - bftool.ArgumentConstructor.Arguments with all  the configurations provided by the user
+        - bftool.Arguments with all  the configurations provided by the user
     """
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument("-mt", "--max-threads",
-                                 help="Maximum number of threads per process (if mode is set to wordlist block, \
-                                 this will be also the worlist division number)", default=1, type=int)
+                                 help="Maximum number of threads per process", default=1, type=int)
     argument_parser.add_argument("-mp", "--max-processes",
                                  help="Maximum number of process to have active at the same time",
                                  default=ARGUMENTS_MODE, type=int)
@@ -67,12 +66,12 @@ def _get_arguments() -> Arguments:
 
 
 def _queue_arguments_loader(arguments_queue: multiprocessing.Queue, master_wordlist: iter):
-    """Fill the `arguments_queue` of the `MainHandler` with the arguments provided by `WordlistHandler`
+    """Fill the `arguments_queue` of the `Main` with the arguments provided by `Wordlist`
 
 
     Arguments:
         - arguments_queue: multiprocessing.Queue that is shared with active processes
-        - wordlist_handler: bftool.WordlistHandler.WordlistHandler object
+        - wordlist_: bftool.Wordlist.Wordlist object
     """
     for argument in master_wordlist:
         arguments_queue.put(argument)
@@ -102,7 +101,7 @@ class Runner(object):
         self.__processes.append(process_thread)
 
     # Use this function to handle prints
-    def success_queue_handler(self, success_function: collections.abc.Callable):
+    def success_queue_(self, success_function: collections.abc.Callable):
         """This need to run in the background as it is the one that print all
         the results that the print_queue contains"""
         while not self.__finish:
@@ -116,7 +115,7 @@ class Runner(object):
 
     # Use this function to start bftool
     def main(self, arguments: Arguments = None):
-        """This function activates the MainHandler, It distributes the function in the
+        """This function activates the Main, It distributes the function in the
          specified processes and threads. To understand how it's arguments can be prepared, please check
          `bftool.ArgumentConstructor.Arguments`
 
@@ -130,7 +129,7 @@ class Runner(object):
         arguments.is_valid()
         self.__debug_setup = arguments.debug
 
-        # Get the function to be used by the handlers
+        # Get the function to be used by the s
         function_ = arguments.function
 
         # Thanks to this it is possible to distribute the input arguments to multiple threads in a thread safe manner
@@ -143,24 +142,24 @@ class Runner(object):
         wordlist_queue_thread.start()
 
         self._print_setup("--- Starting child processes ---")
-        # Start the print queue handler
-        print_queue_thread = threading.Thread(target=self.success_queue_handler, args=(arguments.success_function,))
+        # Start the print queue
+        print_queue_thread = threading.Thread(target=self.success_queue_, args=(arguments.success_function,))
         print_queue_thread.start()
 
         processes_setup_time = time.time()
 
         # Preparing all child processes
         for index in range(1, arguments.maximum_number_of_concurrent_processes + 1):
-            process_handler = Process(index,
+            process_ = Process(index,
                                       function_,
                                       wordlist_queue,
                                       arguments.maximum_number_of_process_threads,
                                       arguments.fuzzing_mode,
                                       self.__print_queue)
             if sys.platform == "win32":
-                self.start_win32_process(process_handler)
+                self.start_win32_process(process_)
             else:
-                self.__processes.append(process_handler)
+                self.__processes.append(process_)
 
             self._print_setup(f"* Process with ID {index} - Prepared")
         processes_setup_time = time.time() - processes_setup_time
@@ -171,8 +170,8 @@ class Runner(object):
         for process in self.__processes:
             process.start()
         # Waiting all processes to finish
-        for process_handler in self.__processes:
-            process_handler.join()
+        for process_ in self.__processes:
+            process_.join()
         fuzzing_time = time.time() - fuzzing_time
         wordlist_queue_thread.join()
         total_time = time.time() - total_time
