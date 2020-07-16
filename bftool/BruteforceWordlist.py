@@ -2,6 +2,9 @@ from .CartesianProduct import product
 from .Types import SpecialGenerator
 
 
+__all__ = ["pure_bruteforce_wordlist", "_pure_bruteforce_rule"]
+
+
 # chars, minlength, maxlength
 def _pure_bruteforce_rule(rule: str):
     """Function that creates a virtual wordlist based on rules.
