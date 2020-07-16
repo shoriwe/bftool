@@ -85,11 +85,6 @@ class Runner(object):
     the main core of the module"""
 
     def __init__(self):
-        """
-        Arguments:
-            - debug_setup: print the setup messages
-        :param debug_setup:
-        """
         self.__debug_setup = True
         # Wordlist distributed processes
         self.__processes = []
