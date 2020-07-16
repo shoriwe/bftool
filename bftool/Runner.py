@@ -151,11 +151,11 @@ class Runner(object):
         # Preparing all child processes
         for index in range(1, arguments.maximum_number_of_concurrent_processes + 1):
             process_ = Process(index,
-                                      function_,
-                                      wordlist_queue,
-                                      arguments.maximum_number_of_process_threads,
-                                      arguments.fuzzing_mode,
-                                      self.__print_queue)
+                               function_,
+                               wordlist_queue,
+                               arguments.maximum_number_of_process_threads,
+                               arguments.fuzzing_mode,
+                               self.__print_queue)
             if sys.platform == "win32":
                 self.start_win32_process(process_)
             else:
