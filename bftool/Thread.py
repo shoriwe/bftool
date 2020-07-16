@@ -4,6 +4,9 @@ import queue
 import multiprocessing
 
 
+__all__ = ["Thread"]
+
+
 # Only a way to handle threads inside processes (useful when can read the entire wordlist)
 class Thread(threading.Thread):
     """Independent Thread, that did not spawn a independent thread for each function execution as it is in self the thread
