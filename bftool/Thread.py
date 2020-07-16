@@ -9,9 +9,9 @@ __all__ = ["Thread"]
 
 # Only a way to handle threads inside processes (useful when can read the entire wordlist)
 class Thread(threading.Thread):
-    """Independent Thread, that did not spawn a independent thread for each function execution as it is in self the thread
-    that calls it, in other words, it is the equivalent of `bftool.ProcessHandler` in arguments mode but without spawning
-    an independent thread for each function call"""
+    """Independent Thread, that did not spawn a independent thread for each function execution as it is in self the
+    thread that calls it, in other words, it is the equivalent of `bftool.Process` in arguments mode but without
+    spawning an independent thread for each function call"""
     def __init__(self, wordlist_queue: multiprocessing.Queue,
                  function_: types.FunctionType, print_queue: multiprocessing.Queue):
         """
@@ -27,7 +27,7 @@ class Thread(threading.Thread):
 
     # Thread runner
     def run(self):
-        """This function is executed when the user calls `ThreadHandler.start()`"""
+        """This function is executed when the user calls `Thread.start()`"""
         while True:
             try:
                 arguments = self.__wordlist_queue.get(True, timeout=5)
