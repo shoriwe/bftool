@@ -38,7 +38,7 @@ class Process(multiprocessing.Process):
         self.__threads_queue = queue.Queue()
         self.__print_queue = print_queue
 
-    # Handler for the wordlist mode
+    #  for the wordlist mode
     def _wordlist_block_mode(self):
         """This is used when the user specify the mode WORDLIST, it spawns independent threads that handle function"""
         for index in range(self.__max_threads):
@@ -54,9 +54,9 @@ class Process(multiprocessing.Process):
             self.__threads_queue.get().join()
             self.__active_threads -= 1
 
-    # Handler for the execution of the the specified function in a independent thread (ARGUMENTS mode)
+    #  for the execution of the the specified function in a independent thread (ARGUMENTS mode)
     def __arguments_mode_function(self, *args):
-        """Handler for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
+        """ for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
 
         Arguments:
             - args: arguments that are going to be passed to the function
@@ -66,9 +66,9 @@ class Process(multiprocessing.Process):
             self.__print_queue.put(result)
         exit(0)
 
-    # Handler for the arguments mode, it spawn an independent thread for each function execution
+    #  for the arguments mode, it spawn an independent thread for each function execution
     def _arguments_block_mode(self):
-        """Handler for the arguments mode, it spawn an independent thread for each function execution"""
+        """ for the arguments mode, it spawn an independent thread for each function execution"""
         while True:
             try:
                 arguments = self.__wordlist_queue.get(True, timeout=5)
@@ -88,9 +88,9 @@ class Process(multiprocessing.Process):
 
     # Runner, it start the process
     def run(self):
-        """Runner, it start the process, if you are in Linux please consider to use `ProcessHandler.start()`, if you are
+        """Runner, it start the process, if you are in Linux please consider to use `Process.start()`, if you are
         in Windows consider tu execute this function in a independent thread with the threading module, it could look
-        like this `threading.Thread(target=ProcessHandler.run, args=(*args, **kargs)).start()`"""
+        like this `threading.Thread(target=Process.run, args=(*args, **kargs)).start()`"""
         if self.__mode == WORDLIST_MODE:
             self._wordlist_block_mode()
         elif self.__mode == ARGUMENTS_MODE:
