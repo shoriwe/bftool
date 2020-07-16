@@ -32,17 +32,17 @@
 a high level API to distribute a python function in processes and/or threads, so the only a developer need to worry
 is in the fuzzing function and not in how to distribute it's execution
 # Requirements
-* Python >= 3.8
+* Python >= 3.6
 # Usage
 ## As Script
 Use `bftool` as a script in the command line
 ### Get script usage
 ```
 fuzzer@linux:~$ python -m bftool --help
-usage: __main__.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES]
-                           [-w WORDLIST] [-b BRUTEFORCE]
-                           [-m {wordlist,arguments}]
-                           script_path function_name
+usage: bftool-run.py [-h] [-mt MAX_THREADS] [-mp MAX_PROCESSES] [-w WORDLIST]
+                     [-b BRUTEFORCE] [-m {wordlist,arguments}]
+                     [-sf SUCCESS_FUNCTION] [--debug-off]
+                     script_path function_name
 
 positional arguments:
   script_path           Python script to import
@@ -52,9 +52,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -mt MAX_THREADS, --max-threads MAX_THREADS
-                        Maximum number of threads per process (if mode is set
-                        to wordlist block, this will be also the worlist
-                        division number)
+                        Maximum number of threads per process
   -mp MAX_PROCESSES, --max-processes MAX_PROCESSES
                         Maximum number of process to have active at the same
                         time
@@ -68,6 +66,10 @@ optional arguments:
   -m {wordlist,arguments}, --mode {wordlist,arguments}
                         Mode to use during the function execution (way to
                         divide the threads)
+  -sf SUCCESS_FUNCTION, --success-function SUCCESS_FUNCTION
+                        Function to pass the success result (default is
+                        'print')
+  --debug-off           Do not print the setup messages
 ```
 
 ### Quick example
@@ -123,25 +125,38 @@ python -m bftool -b argument_name:chars=abcdef,minlength=10,maxlength=1000 scrip
 You can use it as module by creating an `Argument` object and a `MainHandler`
 
 ```python
+import bftool
 import time
-import bftool.Types
-import bftool.ArgumentConstructor
-import bftool.MainHandler
 
 
-# Function that do something
-def test(argument1: str, argument2: str):
-    time.sleep(2)  # Here should be some code that processes the arguments
-    if argument1 == argument2: # You should place a filter to only return wanted results
-        return argument1 + ":" + argument2
+def check(word1, word2):
+    time.sleep(2)
+    if word1 == word2 and word1 == word1[::-1]:
+        return f"{word1} - {word2}"
 
-handler = bftool.MainHandler.MainHandler()
-iterable_wordlists = bftool.Types.IterableWordlists({"argument1": ["Test string 1", "Test string 2"], "argument2": ["Test string 1", "Second string"]}) 
-arguments = bftool.ArgumentConstructor.Arguments(function_=test,
-                                                 wordlists_iterables=iterable_wordlists,
-                                                 maximum_number_of_process_threads=10
-                                                )
-handler.main(arguments)
+
+def success_print(result: str):
+    print("[+]", result)
+
+
+def main():
+    wordlist = {"word1": "chars=qwertyuiopasdfghjklzxcvbnm,minlength=1,maxlength=2",
+                "word2": "chars=qwertyuiopasdfghjklzxcvbnm,minlength=1,maxlength=2"}
+    arguments = bftool.Arguments(check,
+                                 success_function=success_print,
+                                 debug=False,
+                                 bruteforce_rules_wordlists=wordlist,
+                                 maximum_number_of_process_threads=4,
+                                 maximum_number_of_concurrent_processes=10,
+                                 fuzzing_mode=bftool.Modes.WORDLIST_MODE
+                                 )
+
+    runner = bftool.Runner()
+    runner.main(arguments)
+
+
+if __name__ == "__main__":
+    main()
 ```
 
 ## Concepts
