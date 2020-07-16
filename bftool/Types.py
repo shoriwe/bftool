@@ -1,4 +1,5 @@
 import typing
+import types
 
 
 # Low cost way to backup python generators for re-iterations
@@ -6,7 +7,7 @@ class SpecialGenerator(object):
     """Low cost way to backup python generators for re-iterations, so always use it when you whant to pass generators to
     `bftool.Arguments` so the arguments distribution generator (the master one) can understand how to revert it to it's
     original state"""
-    def __init__(self, generator_function, *args):
+    def __init__(self, generator_function: types.FunctionType, *args):
         """
         Arguments:
             - generator_function: The function that creates the generator
