@@ -3,7 +3,7 @@ import types
 import multiprocessing
 import queue
 
-from Thread import Thread
+from .Thread import Thread
 
 from .Modes import ARGUMENTS_MODE
 from .Modes import WORDLIST_MODE
