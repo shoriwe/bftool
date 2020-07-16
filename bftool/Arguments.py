@@ -19,7 +19,8 @@ class Arguments(object):
 
     def __init__(self,
                  function_: collections.abc.Callable = None,
-                 success_function: collections.abc.Callable = print,
+                 success_function: [collections.abc.Callable, str] = print,
+                 debug: bool=True,
                  script_path: str = None,
                  function_name: str = None,
                  iterables_wordlists: dict = None,
@@ -31,6 +32,7 @@ class Arguments(object):
                  ):
         """
             - success_function: The function to use to pass the results of the executed function
+            - debug: print the setup messages
             - function_: The function object to be used
             - script_path: The script path with the source code of the wanted function (Incompatible with `function_`)
             - function_name: The function to be imported (Incompatible with `function_`)
@@ -43,7 +45,9 @@ class Arguments(object):
             - maximum_number_of_process_threads: maximum number of concurrent threads per process
             - fuzzing_mode: the fuzzing mode
         """
-        self._load_success_function(success_function)
+        self._load_success_function(success_function, script_path)
+
+        self.debug = debug
 
         self._load_function(function_, script_path, function_name)
 
@@ -61,9 +65,11 @@ class Arguments(object):
         self.maximum_number_of_process_threads = maximum_number_of_process_threads
         self.fuzzing_mode = fuzzing_mode
 
-    def _load_success_function(self, success_function: collections.abc.Callable):
-        if callable(success_function):
+    def _load_success_function(self, success_function: [collections.abc.Callable, str], script_path):
+        if isinstance(success_function, collections.abc.Callable):
             self.success_function = success_function
+        elif isinstance(success_function, str) and isinstance(script_path, str):
+            self.success_function = import_function_from_script(script_path, success_function)
         else:
             raise TypeError("Success function must be callable")
 
