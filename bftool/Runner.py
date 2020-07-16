@@ -11,6 +11,9 @@ from .Modes import ARGUMENTS_MODE
 from .Modes import WORDLIST_MODE
 
 
+__all__ = ["Runner", "_get_arguments", "_queue_arguments_loader"]
+
+
 # Default argument capture for the main function
 def _get_arguments() -> Arguments:
     """Default function to prepare the arguments for the `MainHandler` during it's execution in a terminal
@@ -104,7 +107,7 @@ class Runner(object):
             success_function(self.__print_queue.get())
 
     def _print_setup(self, message: str):
-        if self.__print_queue:
+        if self.__debug_setup:
             print(message)
 
     # Use this function to start bftool
