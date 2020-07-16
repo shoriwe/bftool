@@ -1,5 +1,5 @@
-import bftool.MainHandler
+import bftool
 
 
 if __name__ == "__main__":
-    bftool.MainHandler.MainHandler().main()
+    bftool.Runner().main()

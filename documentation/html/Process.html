@@ -3,21 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.8.1" />
-<title>bftool.ProcessHandler API documentation</title>
+<meta name="generator" content="pdoc 0.8.4" />
+<title>bftool.Process API documentation</title>
 <meta name="description" content="" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js" integrity="sha256-eOgo0OtLL4cdq7RdwRUiGKLX9XsIJ7nGhWEKbohmVAQ=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>bftool.ProcessHandler</code></h1>
+<h1 class="title">Module <code>bftool.Process</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
@@ -28,17 +30,24 @@
 import types
 import multiprocessing
 import queue
-import bftool
-import bftool.Modes
-import bftool.WordlistHandler
-import bftool.ThreadHandler
+
+from .Thread import Thread
+
+from .Modes import ARGUMENTS_MODE
+from .Modes import WORDLIST_MODE
+
+
+__all__ = [&#34;Process&#34;]
 
 
 # This class is a high level API implemented by inheritance with the python multiprocessing.Process
-class ProcessHandler(multiprocessing.Process):
+class Process(multiprocessing.Process):
     &#34;&#34;&#34;This class provide a high level API to handle the distribution of threads inside a independent process&#34;&#34;&#34;
-    def __init__(self, process_id: int, function_: types.FunctionType, wordlist_queue: multiprocessing.Queue,
-                 max_threads: int, mode: int, print_queue):
+    def __init__(self,
+                 process_id: int,
+                 function_: types.FunctionType, wordlist_queue: multiprocessing.Queue,
+                 max_threads: int, mode: int,
+                 print_queue):
         &#34;&#34;&#34;
             - process_id: ID of the process
             - function_: function that is goning to be passed to the threads
@@ -57,15 +66,15 @@ class ProcessHandler(multiprocessing.Process):
         self.__threads_queue = queue.Queue()
         self.__print_queue = print_queue
 
-    # Handler for the wordlist mode
+    #  for the wordlist mode
     def _wordlist_block_mode(self):
         &#34;&#34;&#34;This is used when the user specify the mode WORDLIST, it spawns independent threads that handle function&#34;&#34;&#34;
         for index in range(self.__max_threads):
             if self.__active_threads &gt; self.__max_threads:
                 self.__threads_queue.get().join()
                 self.__active_threads -= 1
-            wordlist_block_thread = bftool.ThreadHandler.ThreadHandler(self.__wordlist_queue,
-                                                                       self.__function, self.__print_queue)
+            wordlist_block_thread = Thread(self.__wordlist_queue,
+                                           self.__function, self.__print_queue)
             self.__threads_queue.put(wordlist_block_thread)
             wordlist_block_thread.start()
             self.__active_threads += 1
@@ -73,9 +82,9 @@ class ProcessHandler(multiprocessing.Process):
             self.__threads_queue.get().join()
             self.__active_threads -= 1
 
-    # Handler for the execution of the the specified function in a independent thread (ARGUMENTS mode)
+    #  for the execution of the the specified function in a independent thread (ARGUMENTS mode)
     def __arguments_mode_function(self, *args):
-        &#34;&#34;&#34;Handler for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
+        &#34;&#34;&#34; for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
 
         Arguments:
             - args: arguments that are going to be passed to the function
@@ -85,9 +94,9 @@ class ProcessHandler(multiprocessing.Process):
             self.__print_queue.put(result)
         exit(0)
 
-    # Handler for the arguments mode, it spawn an independent thread for each function execution
+    #  for the arguments mode, it spawn an independent thread for each function execution
     def _arguments_block_mode(self):
-        &#34;&#34;&#34;Handler for the arguments mode, it spawn an independent thread for each function execution&#34;&#34;&#34;
+        &#34;&#34;&#34; for the arguments mode, it spawn an independent thread for each function execution&#34;&#34;&#34;
         while True:
             try:
                 arguments = self.__wordlist_queue.get(True, timeout=5)
@@ -107,12 +116,12 @@ class ProcessHandler(multiprocessing.Process):
 
     # Runner, it start the process
     def run(self):
-        &#34;&#34;&#34;Runner, it start the process, if you are in Linux please consider to use `ProcessHandler.start()`, if you are
+        &#34;&#34;&#34;Runner, it start the process, if you are in Linux please consider to use `Process.start()`, if you are
         in Windows consider tu execute this function in a independent thread with the threading module, it could look
-        like this `threading.Thread(target=ProcessHandler.run, args=(*args, **kargs)).start()`&#34;&#34;&#34;
-        if self.__mode == bftool.Modes.WORDLIST_BLOCK:
+        like this `threading.Thread(target=Process.run, args=(*args, **kargs)).start()`&#34;&#34;&#34;
+        if self.__mode == WORDLIST_MODE:
             self._wordlist_block_mode()
-        elif self.__mode == bftool.Modes.ARGUMENTS_MODE:
+        elif self.__mode == ARGUMENTS_MODE:
             self._arguments_block_mode()
         else:
             raise KeyError(&#34;Unknown mode supplied&#34;)
@@ -129,9 +138,9 @@ class ProcessHandler(multiprocessing.Process):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="bftool.ProcessHandler.ProcessHandler"><code class="flex name class">
-<span>class <span class="ident">ProcessHandler</span></span>
-<span>(</span><span>process_id: int, function_: function, wordlist_queue: <bound method BaseContext.Queue of <multiprocessing.context.DefaultContext object at 0x041B8A48>>, max_threads: int, mode: int, print_queue)</span>
+<dt id="bftool.Process.Process"><code class="flex name class">
+<span>class <span class="ident">Process</span></span>
+<span>(</span><span>process_id: int, function_: function, wordlist_queue: <bound method BaseContext.Queue of <multiprocessing.context.DefaultContext object at 0x044CD1F0>>, max_threads: int, mode: int, print_queue)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This class provide a high level API to handle the distribution of threads inside a independent process</p>
@@ -147,10 +156,13 @@ class ProcessHandler(multiprocessing.Process):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ProcessHandler(multiprocessing.Process):
+<pre><code class="python">class Process(multiprocessing.Process):
     &#34;&#34;&#34;This class provide a high level API to handle the distribution of threads inside a independent process&#34;&#34;&#34;
-    def __init__(self, process_id: int, function_: types.FunctionType, wordlist_queue: multiprocessing.Queue,
-                 max_threads: int, mode: int, print_queue):
+    def __init__(self,
+                 process_id: int,
+                 function_: types.FunctionType, wordlist_queue: multiprocessing.Queue,
+                 max_threads: int, mode: int,
+                 print_queue):
         &#34;&#34;&#34;
             - process_id: ID of the process
             - function_: function that is goning to be passed to the threads
@@ -169,15 +181,15 @@ class ProcessHandler(multiprocessing.Process):
         self.__threads_queue = queue.Queue()
         self.__print_queue = print_queue
 
-    # Handler for the wordlist mode
+    #  for the wordlist mode
     def _wordlist_block_mode(self):
         &#34;&#34;&#34;This is used when the user specify the mode WORDLIST, it spawns independent threads that handle function&#34;&#34;&#34;
         for index in range(self.__max_threads):
             if self.__active_threads &gt; self.__max_threads:
                 self.__threads_queue.get().join()
                 self.__active_threads -= 1
-            wordlist_block_thread = bftool.ThreadHandler.ThreadHandler(self.__wordlist_queue,
-                                                                       self.__function, self.__print_queue)
+            wordlist_block_thread = Thread(self.__wordlist_queue,
+                                           self.__function, self.__print_queue)
             self.__threads_queue.put(wordlist_block_thread)
             wordlist_block_thread.start()
             self.__active_threads += 1
@@ -185,9 +197,9 @@ class ProcessHandler(multiprocessing.Process):
             self.__threads_queue.get().join()
             self.__active_threads -= 1
 
-    # Handler for the execution of the the specified function in a independent thread (ARGUMENTS mode)
+    #  for the execution of the the specified function in a independent thread (ARGUMENTS mode)
     def __arguments_mode_function(self, *args):
-        &#34;&#34;&#34;Handler for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
+        &#34;&#34;&#34; for the execution of the the specified function in a independent thread (`ARGUMENTS` mode)
 
         Arguments:
             - args: arguments that are going to be passed to the function
@@ -197,9 +209,9 @@ class ProcessHandler(multiprocessing.Process):
             self.__print_queue.put(result)
         exit(0)
 
-    # Handler for the arguments mode, it spawn an independent thread for each function execution
+    #  for the arguments mode, it spawn an independent thread for each function execution
     def _arguments_block_mode(self):
-        &#34;&#34;&#34;Handler for the arguments mode, it spawn an independent thread for each function execution&#34;&#34;&#34;
+        &#34;&#34;&#34; for the arguments mode, it spawn an independent thread for each function execution&#34;&#34;&#34;
         while True:
             try:
                 arguments = self.__wordlist_queue.get(True, timeout=5)
@@ -219,12 +231,12 @@ class ProcessHandler(multiprocessing.Process):
 
     # Runner, it start the process
     def run(self):
-        &#34;&#34;&#34;Runner, it start the process, if you are in Linux please consider to use `ProcessHandler.start()`, if you are
+        &#34;&#34;&#34;Runner, it start the process, if you are in Linux please consider to use `Process.start()`, if you are
         in Windows consider tu execute this function in a independent thread with the threading module, it could look
-        like this `threading.Thread(target=ProcessHandler.run, args=(*args, **kargs)).start()`&#34;&#34;&#34;
-        if self.__mode == bftool.Modes.WORDLIST_BLOCK:
+        like this `threading.Thread(target=Process.run, args=(*args, **kargs)).start()`&#34;&#34;&#34;
+        if self.__mode == WORDLIST_MODE:
             self._wordlist_block_mode()
-        elif self.__mode == bftool.Modes.ARGUMENTS_MODE:
+        elif self.__mode == ARGUMENTS_MODE:
             self._arguments_block_mode()
         else:
             raise KeyError(&#34;Unknown mode supplied&#34;)
@@ -238,24 +250,24 @@ class ProcessHandler(multiprocessing.Process):
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="bftool.ProcessHandler.ProcessHandler.run"><code class="name flex">
+<dt id="bftool.Process.Process.run"><code class="name flex">
 <span>def <span class="ident">run</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Runner, it start the process, if you are in Linux please consider to use <code>ProcessHandler.start()</code>, if you are
+<div class="desc"><p>Runner, it start the process, if you are in Linux please consider to use <code>Process.start()</code>, if you are
 in Windows consider tu execute this function in a independent thread with the threading module, it could look
-like this <code>threading.Thread(target=ProcessHandler.run, args=(*args, **kargs)).start()</code></p></div>
+like this <code>threading.Thread(target=Process.run, args=(*args, **kargs)).start()</code></p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run(self):
-    &#34;&#34;&#34;Runner, it start the process, if you are in Linux please consider to use `ProcessHandler.start()`, if you are
+    &#34;&#34;&#34;Runner, it start the process, if you are in Linux please consider to use `Process.start()`, if you are
     in Windows consider tu execute this function in a independent thread with the threading module, it could look
-    like this `threading.Thread(target=ProcessHandler.run, args=(*args, **kargs)).start()`&#34;&#34;&#34;
-    if self.__mode == bftool.Modes.WORDLIST_BLOCK:
+    like this `threading.Thread(target=Process.run, args=(*args, **kargs)).start()`&#34;&#34;&#34;
+    if self.__mode == WORDLIST_MODE:
         self._wordlist_block_mode()
-    elif self.__mode == bftool.Modes.ARGUMENTS_MODE:
+    elif self.__mode == ARGUMENTS_MODE:
         self._arguments_block_mode()
     else:
         raise KeyError(&#34;Unknown mode supplied&#34;)
@@ -282,9 +294,9 @@ like this <code>threading.Thread(target=ProcessHandler.run, args=(*args, **kargs
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="bftool.ProcessHandler.ProcessHandler" href="#bftool.ProcessHandler.ProcessHandler">ProcessHandler</a></code></h4>
+<h4><code><a title="bftool.Process.Process" href="#bftool.Process.Process">Process</a></code></h4>
 <ul class="">
-<li><code><a title="bftool.ProcessHandler.ProcessHandler.run" href="#bftool.ProcessHandler.ProcessHandler.run">run</a></code></li>
+<li><code><a title="bftool.Process.Process.run" href="#bftool.Process.Process.run">run</a></code></li>
 </ul>
 </li>
 </ul>
@@ -293,9 +305,7 @@ like this <code>threading.Thread(target=ProcessHandler.run, args=(*args, **kargs
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.1</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.8.4</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>

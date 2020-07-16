@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bftool-pkg-sulcud",
-    version="1.4.4",
+    version="1.4.5",
     author="Antonio Donis",
     author_email="antoniojosedonishung@gmail.com",
     description="A python module and script to handle custom fuzzing against anything",
@@ -18,5 +18,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.6',
 )
