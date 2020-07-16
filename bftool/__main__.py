@@ -1,4 +1,4 @@
 import bftool
 
 if __name__ == "__main__":
-    bftool.Runner(True).main()
+    bftool.Runner().main()
