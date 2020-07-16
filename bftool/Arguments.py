@@ -5,7 +5,7 @@ import string
 
 from .Modes import ARGUMENTS_MODE
 from .Types import SpecialGenerator
-from .Imports import import_function_from_script
+from .ImportCode import import_function_from_script
 from .CartesianProduct import combine_wordlists
 from .BruteforceWordlist import pure_bruteforce_wordlist
 from .WordlistFromFile import read_file_lines
