@@ -2,6 +2,9 @@ from .Types import SpecialGenerator
 from .Types import ExpandableTuple
 
 
+__all__ = ["product", "expand_product_result", "combine_wordlists"]
+
+
 def product(iterable_: iter, length: int, join=False):
     """Custom cartesian product that creates product on the fly
 
