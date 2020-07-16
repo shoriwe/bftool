@@ -1,6 +1,9 @@
 from .Types import SpecialGenerator
 
 
+__all__ = ["_read_file_lines", "read_file_lines"]
+
+
 def _read_file_lines(file_path: str):
     """Function that iterates over a file lines, eat less memory than reading it at once
 
