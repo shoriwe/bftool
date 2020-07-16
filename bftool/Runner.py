@@ -38,6 +38,13 @@ def _get_arguments() -> Arguments:
     argument_parser.add_argument("-m", "--mode",
                                  help="Mode to use during the function execution (way to divide the threads)",
                                  choices=("wordlist", "arguments"), default="arguments")
+    argument_parser.add_argument("-sf", "--success-function",
+                                 help="Function to pass the success result (default is 'print')",
+                                 default=print)
+    argument_parser.add_argument('--debug-off',
+                                 help="Do not print the setup messages",
+                                 default=False,
+                                 action="store_true")
     argument_parser.add_argument("script_path", help="Python script to import")
     argument_parser.add_argument("function_name", help="Name of the function implemented in the python script to use")
     parsed_arguments = argument_parser.parse_args()
@@ -47,7 +54,9 @@ def _get_arguments() -> Arguments:
         parsed_arguments.mode = ARGUMENTS_MODE
     arguments = Arguments(
         script_path=parsed_arguments.script_path,
+        debug=not parsed_arguments.debug_off,
         function_name=parsed_arguments.function_name,
+        success_function=parsed_arguments.success_function,
         files_wordlists=dict(wordlist.split(":") for wordlist in parsed_arguments.wordlist),
         bruteforce_rules_wordlists=dict(wordlist.split(":") for wordlist in parsed_arguments.bruteforce),
         maximum_number_of_concurrent_processes=parsed_arguments.max_processes,
@@ -75,13 +84,13 @@ class Runner(object):
     """This class provide a high level interface for the execution distribution of a python function, it is
     the main core of the module"""
 
-    def __init__(self, debug_setup=False):
+    def __init__(self):
         """
         Arguments:
             - debug_setup: print the setup messages
         :param debug_setup:
         """
-        self.__debug_setup = debug_setup
+        self.__debug_setup = True
         # Wordlist distributed processes
         self.__processes = []
         self.__print_queue = multiprocessing.Queue()
@@ -124,6 +133,7 @@ class Runner(object):
         if arguments is None:
             arguments = _get_arguments()
         arguments.is_valid()
+        self.__debug_setup = arguments.debug
 
         # Get the function to be used by the handlers
         function_ = arguments.function
