@@ -122,7 +122,7 @@ python -m bftool -b argument_name:chars=abcdef,minlength=10,maxlength=1000 scrip
 - It's functionality is very similar to the wordlist specification option, the only different is that it receive as input the wordlist generation rule
 
 ## As Module
-You can use it as module by creating an `Argument` object and a `MainHandler`
+You can use it as module by creating `Arguments` object and a `Runner`
 
 ```python
 import bftool
