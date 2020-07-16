@@ -3,6 +3,9 @@ import importlib
 import types
 
 
+__all__ = ["import_module_from_path", "import_function_from_script"]
+
+
 # Import a python module from it's filesystem path
 def import_module_from_path(main_py_path: str) -> types.ModuleType:
     """Import a python module from it's FileSystem path
