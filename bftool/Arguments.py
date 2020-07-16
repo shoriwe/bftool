@@ -1,14 +1,15 @@
 import collections
 import inspect
-import typing
 import string
 
 from .Modes import ARGUMENTS_MODE
-from .Types import SpecialGenerator
 from .ImportCode import import_function_from_script
 from .CartesianProduct import combine_wordlists
 from .BruteforceWordlist import pure_bruteforce_wordlist
 from .WordlistFromFile import read_file_lines
+
+
+__all__ = ["Arguments"]
 
 
 # This class prepare all the arguments that the MainHandler is going to use
@@ -48,7 +49,6 @@ class Arguments(object):
 
         # - Wordlist Setup
         # This is the argument that will replace replace WordlistHandler.wordlist
-        self.__wordlists: (int, [SpecialGenerator, typing.Iterable[None], None])
         self.__wordlists = [None] * len(self.__function_args_spec.args)
 
         self._load_words_from_iterables(iterables_wordlists)
@@ -87,10 +87,13 @@ class Arguments(object):
         # To handle generators please check bftool.Types.SpecialGenerator
         if iterables_wordlists:
             for key, value in iterables_wordlists.items():
-                if key[0] in string.digits:
-                    self.__wordlists[int(key)] = value
+                if isinstance(key, int):
+                    self.__wordlists[key] = value
                 elif isinstance(key, str):
-                    self.__wordlists[self.__function_args_spec.args.index(key)] = value
+                    if key[0] in string.digits:
+                        self.__wordlists[int(key)] = value
+                    else:
+                        self.__wordlists[self.__function_args_spec.args.index(key)] = value
                 else:
                     raise KeyError(f"Can't index in the function arguments key {key} of type {type(key)}")
 
@@ -102,10 +105,8 @@ class Arguments(object):
                     self.__wordlists[key] = pure_bruteforce_wordlist(value)
                 elif isinstance(key, str):
                     if key[0] in string.digits:
-                        # noinspection PyTypeChecker
                         self.__wordlists[int(key)] = pure_bruteforce_wordlist(value)
                     else:
-                        # noinspection PyTypeChecker
                         self.__wordlists[self.__function_args_spec.args.index(key)] = pure_bruteforce_wordlist(value)
                 else:
                     raise KeyError(f"Can't index in the function arguments key {key} of type {type(key)}")
@@ -114,12 +115,13 @@ class Arguments(object):
         # If the user provide a file as a wordlist (it always read each line as an argument)
         if files_wordlists:
             for key, value in files_wordlists.items():
-                if key[0] in string.digits:
-                    # noinspection PyTypeChecker
-                    self.__wordlists[int(key)] = read_file_lines(value)
+                if isinstance(key, int):
+                    self.__wordlists[key] = read_file_lines(value)
                 elif isinstance(key, str):
-                    # noinspection PyTypeChecker
-                    self.__wordlists[self.__function_args_spec.args.index(key)] = read_file_lines(value)
+                    if key[0] in string.digits:
+                        self.__wordlists[int(key)] = read_file_lines(value)
+                    else:
+                        self.__wordlists[self.__function_args_spec.args.index(key)] = read_file_lines(value)
                 else:
                     raise KeyError(f"Can't index in the function arguments key {key} of type {type(key)}")
 
