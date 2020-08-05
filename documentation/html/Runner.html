@@ -84,8 +84,8 @@ def _get_arguments() -&gt; Arguments:
         debug=not parsed_arguments.debug_off,
         function_name=parsed_arguments.function_name,
         success_function=parsed_arguments.success_function,
-        files_wordlists=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.wordlist),
-        bruteforce_rules_wordlists=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.bruteforce),
+        wordlists_files=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.wordlist),
+        wordlists_pure_bruteforce_rules=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.bruteforce),
         maximum_number_of_concurrent_processes=parsed_arguments.max_processes,
         maximum_number_of_process_threads=parsed_arguments.max_threads,
         fuzzing_mode=parsed_arguments.mode,
@@ -117,6 +117,7 @@ class Runner(object):
         self.__processes = []
         self.__print_queue = multiprocessing.Queue()
         self.__finish = False
+        self.__running = False
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
     def start_win32_process(self, process: multiprocessing.Process):
@@ -142,7 +143,7 @@ class Runner(object):
             print(message)
 
     # Use this function to start bftool
-    def main(self, arguments: Arguments = None):
+    def run(self, arguments: Arguments = None):
         &#34;&#34;&#34;This function activates the Main, It distributes the function in the
          specified processes and threads. To understand how it&#39;s arguments can be prepared, please check
          `bftool.ArgumentConstructor.Arguments`
@@ -150,6 +151,14 @@ class Runner(object):
          Arguments:
              - arguments: bftool.ArgumentConstructor.Arguments
         &#34;&#34;&#34;
+        if self.__running:
+            if not self.__finish:
+                raise RuntimeError(&#34;Can\&#39;t use a runner that is already being used&#34;)
+            self.__processes.clear()
+            self.__print_queue.empty()
+            self.__running = False
+            self.__debug_setup = True
+        self.__running = True
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
         if arguments is None:
@@ -275,8 +284,8 @@ the configurations provided by the user</li>
         debug=not parsed_arguments.debug_off,
         function_name=parsed_arguments.function_name,
         success_function=parsed_arguments.success_function,
-        files_wordlists=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.wordlist),
-        bruteforce_rules_wordlists=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.bruteforce),
+        wordlists_files=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.wordlist),
+        wordlists_pure_bruteforce_rules=dict(wordlist.split(&#34;:&#34;) for wordlist in parsed_arguments.bruteforce),
         maximum_number_of_concurrent_processes=parsed_arguments.max_processes,
         maximum_number_of_process_threads=parsed_arguments.max_threads,
         fuzzing_mode=parsed_arguments.mode,
@@ -285,7 +294,7 @@ the configurations provided by the user</li>
 </details>
 </dd>
 <dt id="bftool.Runner._queue_arguments_loader"><code class="name flex">
-<span>def <span class="ident">_queue_arguments_loader</span></span>(<span>arguments_queue: <bound method BaseContext.Queue of <multiprocessing.context.DefaultContext object at 0x044CD1F0>>, master_wordlist: <built-in function iter>)</span>
+<span>def <span class="ident">_queue_arguments_loader</span></span>(<span>arguments_queue: <bound method BaseContext.Queue of <multiprocessing.context.DefaultContext object at 0x03A4D268>>, master_wordlist: <built-in function iter>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Fill the <code>arguments_queue</code> of the <code>Main</code> with the arguments provided by <code>Wordlist</code></p>
@@ -336,6 +345,7 @@ the main core of the module</p></div>
         self.__processes = []
         self.__print_queue = multiprocessing.Queue()
         self.__finish = False
+        self.__running = False
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
     def start_win32_process(self, process: multiprocessing.Process):
@@ -361,7 +371,7 @@ the main core of the module</p></div>
             print(message)
 
     # Use this function to start bftool
-    def main(self, arguments: Arguments = None):
+    def run(self, arguments: Arguments = None):
         &#34;&#34;&#34;This function activates the Main, It distributes the function in the
          specified processes and threads. To understand how it&#39;s arguments can be prepared, please check
          `bftool.ArgumentConstructor.Arguments`
@@ -369,6 +379,14 @@ the main core of the module</p></div>
          Arguments:
              - arguments: bftool.ArgumentConstructor.Arguments
         &#34;&#34;&#34;
+        if self.__running:
+            if not self.__finish:
+                raise RuntimeError(&#34;Can\&#39;t use a runner that is already being used&#34;)
+            self.__processes.clear()
+            self.__print_queue.empty()
+            self.__running = False
+            self.__debug_setup = True
+        self.__running = True
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
         if arguments is None:
@@ -433,8 +451,8 @@ the main core of the module</p></div>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="bftool.Runner.Runner.main"><code class="name flex">
-<span>def <span class="ident">main</span></span>(<span>self, arguments: <a title="bftool.Arguments.Arguments" href="Arguments.html#bftool.Arguments.Arguments">Arguments</a> = None)</span>
+<dt id="bftool.Runner.Runner.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self, arguments: <a title="bftool.Arguments.Arguments" href="Arguments.html#bftool.Arguments.Arguments">Arguments</a> = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This function activates the Main, It distributes the function in the
@@ -448,7 +466,7 @@ specified processes and threads. To understand how it's arguments can be prepare
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def main(self, arguments: Arguments = None):
+<pre><code class="python">def run(self, arguments: Arguments = None):
     &#34;&#34;&#34;This function activates the Main, It distributes the function in the
      specified processes and threads. To understand how it&#39;s arguments can be prepared, please check
      `bftool.ArgumentConstructor.Arguments`
@@ -456,6 +474,14 @@ specified processes and threads. To understand how it's arguments can be prepare
      Arguments:
          - arguments: bftool.ArgumentConstructor.Arguments
     &#34;&#34;&#34;
+    if self.__running:
+        if not self.__finish:
+            raise RuntimeError(&#34;Can\&#39;t use a runner that is already being used&#34;)
+        self.__processes.clear()
+        self.__print_queue.empty()
+        self.__running = False
+        self.__debug_setup = True
+    self.__running = True
     total_time = time.time()
     # If the user use bftool as a module he may want to specify a custom set of arguments
     if arguments is None:
@@ -588,7 +614,7 @@ the results that the print_queue contains</p></div>
 <li>
 <h4><code><a title="bftool.Runner.Runner" href="#bftool.Runner.Runner">Runner</a></code></h4>
 <ul class="">
-<li><code><a title="bftool.Runner.Runner.main" href="#bftool.Runner.Runner.main">main</a></code></li>
+<li><code><a title="bftool.Runner.Runner.run" href="#bftool.Runner.Runner.run">run</a></code></li>
 <li><code><a title="bftool.Runner.Runner.start_win32_process" href="#bftool.Runner.Runner.start_win32_process">start_win32_process</a></code></li>
 <li><code><a title="bftool.Runner.Runner.success_queue_" href="#bftool.Runner.Runner.success_queue_">success_queue_</a></code></li>
 </ul>

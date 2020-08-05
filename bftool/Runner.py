@@ -56,8 +56,8 @@ def _get_arguments() -> Arguments:
         debug=not parsed_arguments.debug_off,
         function_name=parsed_arguments.function_name,
         success_function=parsed_arguments.success_function,
-        files_wordlists=dict(wordlist.split(":") for wordlist in parsed_arguments.wordlist),
-        bruteforce_rules_wordlists=dict(wordlist.split(":") for wordlist in parsed_arguments.bruteforce),
+        wordlists_files=dict(wordlist.split(":") for wordlist in parsed_arguments.wordlist),
+        wordlists_pure_bruteforce_rules=dict(wordlist.split(":") for wordlist in parsed_arguments.bruteforce),
         maximum_number_of_concurrent_processes=parsed_arguments.max_processes,
         maximum_number_of_process_threads=parsed_arguments.max_threads,
         fuzzing_mode=parsed_arguments.mode,
@@ -89,6 +89,7 @@ class Runner(object):
         self.__processes = []
         self.__print_queue = multiprocessing.Queue()
         self.__finish = False
+        self.__running = False
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
     def start_win32_process(self, process: multiprocessing.Process):
@@ -114,7 +115,7 @@ class Runner(object):
             print(message)
 
     # Use this function to start bftool
-    def main(self, arguments: Arguments = None):
+    def run(self, arguments: Arguments = None):
         """This function activates the Main, It distributes the function in the
          specified processes and threads. To understand how it's arguments can be prepared, please check
          `bftool.ArgumentConstructor.Arguments`
@@ -122,6 +123,14 @@ class Runner(object):
          Arguments:
              - arguments: bftool.ArgumentConstructor.Arguments
         """
+        if self.__running:
+            if not self.__finish:
+                raise RuntimeError("Can\'t use a runner that is already being used")
+            self.__processes.clear()
+            self.__print_queue.empty()
+            self.__running = False
+            self.__debug_setup = True
+        self.__running = True
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
         if arguments is None:
