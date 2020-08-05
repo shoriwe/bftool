@@ -23,9 +23,9 @@ class Arguments(object):
                  debug: bool = True,
                  script_path: str = None,
                  function_name: str = None,
-                 iterables_wordlists: dict = None,
-                 bruteforce_rules_wordlists: dict = None,
-                 files_wordlists: dict = None,
+                 wordlists_iterables: dict = None,
+                 wordlists_pure_bruteforce_rules: dict = None,
+                 wordlists_files: dict = None,
                  maximum_number_of_concurrent_processes: int = 1,
                  maximum_number_of_process_threads: int = 1,
                  fuzzing_mode=ARGUMENTS_MODE,
@@ -55,9 +55,9 @@ class Arguments(object):
         # This is the argument that will replace replace Wordlist.wordlist
         self.__wordlists = [None] * len(self.__function_args_spec.args)
 
-        self._load_words_from_iterables(iterables_wordlists)
-        self._load_words_from_bruteforce_rules(bruteforce_rules_wordlists)
-        self._load_words_from_files(files_wordlists)
+        self._load_words_from_iterables(wordlists_iterables)
+        self._load_words_from_bruteforce_rules(wordlists_pure_bruteforce_rules)
+        self._load_words_from_files(wordlists_files)
 
         self.master_wordlist = combine_wordlists(self.__wordlists)
 
