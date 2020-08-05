@@ -89,6 +89,7 @@ class Runner(object):
         self.__processes = []
         self.__print_queue = multiprocessing.Queue()
         self.__finish = False
+        self.__running = False
 
     # Use this in win32 system as it has trouble using multiprocessing.Process().start()
     def start_win32_process(self, process: multiprocessing.Process):
@@ -122,6 +123,14 @@ class Runner(object):
          Arguments:
              - arguments: bftool.ArgumentConstructor.Arguments
         """
+        if self.__running:
+            if not self.__finish:
+                raise RuntimeError("Can\'t use a runner that is already being used")
+            self.__processes.clear()
+            self.__print_queue.empty()
+            self.__running = False
+            self.__debug_setup = True
+        self.__running = True
         total_time = time.time()
         # If the user use bftool as a module he may want to specify a custom set of arguments
         if arguments is None:
