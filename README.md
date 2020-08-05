@@ -145,14 +145,14 @@ def main():
     arguments = bftool.Arguments(check,
                                  success_function=success_print,
                                  debug=False,
-                                 bruteforce_rules_wordlists=wordlist,
+                                 wordlists_pure_bruteforce_rules=wordlist,
                                  maximum_number_of_process_threads=4,
                                  maximum_number_of_concurrent_processes=10,
                                  fuzzing_mode=bftool.Modes.WORDLIST_MODE
                                  )
 
     runner = bftool.Runner()
-    runner.main(arguments)
+    runner.run(arguments)
 
 
 if __name__ == "__main__":
@@ -210,7 +210,7 @@ patrick
 \
 The `Python` equivalent will be
 ```python
-def wordlist_handler(wordlist_handler: Queue):
+def wordlist_handler(wordlist_handler: queue.Queue):
     while True:
         try:
             name = wordlist_handler.get(timeout=5)
