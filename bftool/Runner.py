@@ -191,4 +191,3 @@ class Runner(object):
         # Kill switch
         self.__finish = True
         print_queue_thread.join()
-        exit(0)
